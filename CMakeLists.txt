@@ -4,6 +4,9 @@ project(vulkanite-engine LANGUAGES CXX)
 
 include(FetchContent)
 
+file(GLOB_RECURSE WINDOW_INCLUDE "vulkanite/window/*.hpp")
+file(GLOB_RECURSE DETAIL_INLINE "vulkanite/detail/*.inl")
+
 find_package(Vulkan REQUIRED)
 
 FetchContent_Declare(
@@ -28,7 +31,7 @@ FetchContent_MakeAvailable(glfw)
 FetchContent_MakeAvailable(glm)
 FetchContent_MakeAvailable(VulkanMemoryAllocator)
 
-add_library(vulkanite INTERFACE)
+add_library(vulkanite INTERFACE ${WINDOW_INCLUDE} ${DETAIL_INLINE})
 
 target_include_directories(vulkanite INTERFACE
     ${VulkanMemoryAllocator_SOURCE_DIR}/include
