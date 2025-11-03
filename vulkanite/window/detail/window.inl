@@ -144,7 +144,7 @@ vulkanite::window::Event vulkanite::window::Window::getNextEvent() {
     return event;
 }
 
-GLFWwindow*& vulkanite::window::Window::getHandle() {
+const vulkanite::window::Handle& vulkanite::window::Window::getHandle() {
     return handle_;
 }
 
