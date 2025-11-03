@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdlib>
+
 namespace vulkanite::window {
     enum class Backend : int;
 
@@ -19,8 +21,11 @@ namespace vulkanite::window {
 
         void awaitEventsTimeout(double timeout);
 
-        Backend queryBackend() const;
+        [[nodiscard]] Backend queryBackend() const;
+
+    private:
+        static std::size_t subsystemCount_;
     };
 }
 
-#include "../detail/subsystem.inl"
+#include "detail/subsystem.inl"

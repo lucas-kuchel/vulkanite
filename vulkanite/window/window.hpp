@@ -60,16 +60,18 @@ namespace vulkanite::window {
         EventInfo info;
     };
 
-    using WindowExtent = glm::uvec2;
-    using WindowTitle = std::string;
+    using Extent = glm::uvec2;
+    using Title = std::string;
+    using Handle = GLFWwindow*;
+    using EventList = std::queue<Event>;
 
     class Subsystem;
 
     struct WindowCreateInfo {
         Subsystem& subsystem;
         Visibility visibility;
-        WindowExtent extent;
-        WindowTitle title;
+        Extent extent;
+        Title title;
 
         bool resizable;
     };
@@ -85,44 +87,40 @@ namespace vulkanite::window {
         Window& operator=(const Window&) = delete;
         Window& operator=(Window&&) noexcept = default;
 
-        void setExtent(const glm::uvec2& extent);
-        void setTitle(const std::string& title);
+        void setExtent(const Extent& extent);
+        void setTitle(const Title& title);
         void setVisibility(const Visibility& visibility);
 
-        [[nodiscard]] const glm::uvec2& getExtent() const;
-        [[nodiscard]] const std::string& getTitle() const;
+        [[nodiscard]] const Extent& getExtent() const;
+        [[nodiscard]] const Title& getTitle() const;
         [[nodiscard]] const Visibility& getVisibility() const;
 
         [[nodiscard]] bool hasEvents() const;
 
         [[nodiscard]] Event getNextEvent();
-        [[nodiscard]] GLFWwindow*& getHandle();
+        [[nodiscard]] Handle getHandle();
 
     private:
-        WindowExtent extent_;
-        WindowExtent lastWindowedExtent_;
-        WindowTitle title_;
-        std::queue<Event> events_;
-
+        Extent extent_;
+        Extent lastWindowedExtent_;
         Visibility visibility_;
         Visibility lastVisibility_;
+        Title title_;
+        EventList events_;
+        Handle handle_ = nullptr;
 
-        GLFWwindow* handle_ = nullptr;
-
-        static void resizeCallback(GLFWwindow* window, int width, int height);
-        static void closeCallback(GLFWwindow* window);
-        static void focusCallback(GLFWwindow* window, int focused);
-        static void iconifyCallback(GLFWwindow* window, int iconified);
-        static void keyCallback(GLFWwindow* window, int key, int, int action, int);
-        static void mouseButtonCallback(GLFWwindow* window, int button, int action, int);
-        static void mousePositionCallback(GLFWwindow* window, double x, double y);
-        static void mouseScrollCallback(GLFWwindow* window, double x, double y);
+        static void resizeCallback(Handle window, int width, int height);
+        static void closeCallback(Handle window);
+        static void focusCallback(Handle window, int focused);
+        static void iconifyCallback(Handle window, int iconified);
+        static void keyCallback(Handle window, int key, int, int action, int);
+        static void mouseButtonCallback(Handle window, int button, int action, int);
+        static void mousePositionCallback(Handle window, double x, double y);
+        static void mouseScrollCallback(Handle window, double x, double y);
 
         [[nodiscard]] static Key mapKey(int key);
         [[nodiscard]] static MouseButton mapMouseButton(int button);
-
-        friend class renderer::Surface;
     };
 }
 
-#include "../detail/window.inl"
+#include "detail/window.inl"

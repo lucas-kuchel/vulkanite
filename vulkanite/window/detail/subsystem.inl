@@ -9,7 +9,15 @@
 
 #include <GLFW/glfw3.h>
 
+std::size_t vulkanite::window::Subsystem::subsystemCount_ = 0;
+
 vulkanite::window::Subsystem::Subsystem() {
+    subsystemCount_++;
+
+    if (subsystemCount_ > 1) {
+        return;
+    }
+
     if (glfwInit() != GLFW_TRUE) {
         throw std::runtime_error("Call failed: vulkanite::window::Subsystem::Subsystem(): Failed to initialise window API");
     }
@@ -18,7 +26,11 @@ vulkanite::window::Subsystem::Subsystem() {
 }
 
 vulkanite::window::Subsystem::~Subsystem() {
-    glfwTerminate();
+    subsystemCount_--;
+
+    if (subsystemCount_ == 0) {
+        glfwTerminate();
+    }
 }
 
 void vulkanite::window::Subsystem::pollEvents() {
