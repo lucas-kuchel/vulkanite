@@ -33,7 +33,7 @@ FetchContent_MakeAvailable(VulkanMemoryAllocator)
 add_library(vulkanite STATIC ${SOURCES})
 
 target_include_directories(vulkanite PRIVATE
-    "include"
+    "source/include"
     ${VulkanMemoryAllocator_SOURCE_DIR}/include
     ${glfw_SOURCE_DIR}/include
     ${glm_SOURCE_DIR}
