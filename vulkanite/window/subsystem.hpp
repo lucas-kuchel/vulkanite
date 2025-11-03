@@ -22,3 +22,5 @@ namespace vulkanite::window {
         Backend queryBackend() const;
     };
 }
+
+#include "../detail/subsystem.inl"

@@ -1,3 +1,7 @@
+#pragma once
+
+#if defined(VULKANITE_WINDOW_WINDOW_IMPLEMENTATION)
+
 #include <vulkanite/window/configuration.hpp>
 #include <vulkanite/window/window.hpp>
 
@@ -649,3 +653,5 @@ vulkanite::window::MouseButton vulkanite::window::Window::mapMouseButton(int but
 
     throw;
 }
+
+#endif

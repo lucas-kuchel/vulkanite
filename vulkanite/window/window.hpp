@@ -124,3 +124,5 @@ namespace vulkanite::window {
         friend class renderer::Surface;
     };
 }
+
+#include "../detail/window.inl"

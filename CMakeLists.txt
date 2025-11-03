@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
 
-project(vulkanite-vulkanite LANGUAGES CXX)
+project(vulkanite-engine LANGUAGES CXX)
 
 include(FetchContent)
-
-file(GLOB_RECURSE SOURCES "source/*.cpp")
 
 find_package(Vulkan REQUIRED)
 
@@ -30,47 +28,46 @@ FetchContent_MakeAvailable(glfw)
 FetchContent_MakeAvailable(glm)
 FetchContent_MakeAvailable(VulkanMemoryAllocator)
 
-add_library(vulkanite STATIC ${SOURCES})
+add_library(vulkanite INTERFACE)
 
-target_include_directories(vulkanite PUBLIC
-    "source/include"
+target_include_directories(vulkanite INTERFACE
     ${VulkanMemoryAllocator_SOURCE_DIR}/include
     ${glfw_SOURCE_DIR}/include
     ${glm_SOURCE_DIR}
 )
 
-target_link_libraries(vulkanite PUBLIC
+target_link_libraries(vulkanite INTERFACE
     glfw
     Vulkan::Vulkan
     GPUOpen::VulkanMemoryAllocator
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND MSVC)
-    target_compile_definitions(vulkanite PUBLIC VKNT_COMPILER_CLANG_CL)
+    target_compile_definitions(vulkanite INTERFACE VULKANITE_COMPILER_CLANG_CL)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    target_compile_definitions(vulkanite PUBLIC VKNT_COMPILER_CLANG)
+    target_compile_definitions(vulkanite INTERFACE VULKANITE_COMPILER_CLANG)
 endif()
 
 if(MSVC)
-    target_compile_definitions(vulkanite PUBLIC VKNT_COMPILER_MSVC)
+    target_compile_definitions(vulkanite INTERFACE VULKANITE_COMPILER_MSVC)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GCC")
-    target_compile_definitions(vulkanite PUBLIC VKNT_COMPILER_GCC)
+    target_compile_definitions(vulkanite INTERFACE VULKANITE_COMPILER_GCC)
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_definitions(vulkanite PUBLIC VKNT_BUILD_TYPE_DEBUG)
+    target_compile_definitions(vulkanite INTERFACE VULKANITE_BUILD_TYPE_DEBUG)
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
-    target_compile_definitions(vulkanite PUBLIC VKNT_BUILD_TYPE_RELEASE)
+    target_compile_definitions(vulkanite INTERFACE VULKANITE_BUILD_TYPE_RELEASE)
 endif()
 
 if(APPLE)
-    target_compile_definitions(vulkanite PUBLIC VKNT_PLATFORM_APPLE)
+    target_compile_definitions(vulkanite INTERFACE VULKANITE_PLATFORM_APPLE)
 endif()
 
 if(UNIX)
-    target_compile_definitions(vulkanite PUBLIC VKNT_PLATFORM_UNIX)
+    target_compile_definitions(vulkanite INTERFACE VULKANITE_PLATFORM_UNIX)
 elseif(WIN32)
-    target_compile_definitions(vulkanite PUBLIC VKNT_PLATFORM_WIN32)
+    target_compile_definitions(vulkanite INTERFACE VULKANITE_PLATFORM_WIN32)
 endif()
