@@ -94,11 +94,10 @@ namespace vulkanite::window {
         [[nodiscard]] const Extent& getExtent() const;
         [[nodiscard]] const Title& getTitle() const;
         [[nodiscard]] const Visibility& getVisibility() const;
+        [[nodiscard]] const Handle& getHandle();
 
         [[nodiscard]] bool hasEvents() const;
-
         [[nodiscard]] Event getNextEvent();
-        [[nodiscard]] Handle getHandle();
 
     private:
         Extent extent_;
