@@ -1,5 +1,9 @@
 #pragma once
 
+#include "../macros/cppstd.hpp"
+
+#if VULKANITE_SUPPORTED
+
 #include <queue>
 #include <string>
 
@@ -60,18 +64,18 @@ namespace vulkanite::window {
         EventInfo info;
     };
 
-    using Extent = glm::uvec2;
-    using Title = std::string;
-    using Handle = GLFWwindow*;
-    using EventList = std::queue<Event>;
+    using ExtentType = glm::uvec2;
+    using TitleType = std::string;
+    using HandleType = GLFWwindow*;
+    using EventListType = std::queue<Event>;
 
     class Subsystem;
 
     struct WindowCreateInfo {
         Subsystem& subsystem;
         Visibility visibility;
-        Extent extent;
-        Title title;
+        ExtentType extent;
+        TitleType title;
 
         bool resizable;
     };
@@ -87,35 +91,35 @@ namespace vulkanite::window {
         Window& operator=(const Window&) = delete;
         Window& operator=(Window&&) noexcept = default;
 
-        void setExtent(const Extent& extent);
-        void setTitle(const Title& title);
+        void setExtent(const ExtentType& extent);
+        void setTitle(const TitleType& title);
         void setVisibility(const Visibility& visibility);
 
-        [[nodiscard]] const Extent& getExtent() const;
-        [[nodiscard]] const Title& getTitle() const;
+        [[nodiscard]] const ExtentType& getExtent() const;
+        [[nodiscard]] const TitleType& getTitle() const;
         [[nodiscard]] const Visibility& getVisibility() const;
-        [[nodiscard]] const Handle& getHandle();
+        [[nodiscard]] const HandleType& getHandle();
 
         [[nodiscard]] bool hasEvents() const;
         [[nodiscard]] Event getNextEvent();
 
     private:
-        Extent extent_;
-        Extent lastWindowedExtent_;
+        ExtentType extent_;
+        ExtentType lastWindowedExtent_;
         Visibility visibility_;
         Visibility lastVisibility_;
-        Title title_;
-        EventList events_;
-        Handle handle_ = nullptr;
+        TitleType title_;
+        EventListType events_;
+        HandleType handle_ = nullptr;
 
-        static void resizeCallback(Handle window, int width, int height);
-        static void closeCallback(Handle window);
-        static void focusCallback(Handle window, int focused);
-        static void iconifyCallback(Handle window, int iconified);
-        static void keyCallback(Handle window, int key, int, int action, int);
-        static void mouseButtonCallback(Handle window, int button, int action, int);
-        static void mousePositionCallback(Handle window, double x, double y);
-        static void mouseScrollCallback(Handle window, double x, double y);
+        static void resizeCallback(HandleType window, int width, int height);
+        static void closeCallback(HandleType window);
+        static void focusCallback(HandleType window, int focused);
+        static void iconifyCallback(HandleType window, int iconified);
+        static void keyCallback(HandleType window, int key, int, int action, int);
+        static void mouseButtonCallback(HandleType window, int button, int action, int);
+        static void mousePositionCallback(HandleType window, double x, double y);
+        static void mouseScrollCallback(HandleType window, double x, double y);
 
         [[nodiscard]] static Key mapKey(int key);
         [[nodiscard]] static MouseButton mapMouseButton(int button);
@@ -123,3 +127,5 @@ namespace vulkanite::window {
 }
 
 #include "detail/window.inl"
+
+#endif

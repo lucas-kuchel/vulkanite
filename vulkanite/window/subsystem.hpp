@@ -1,5 +1,9 @@
 #pragma once
 
+#include "../macros/cppstd.hpp"
+
+#if VULKANITE_SUPPORTED
+
 #include <cstdlib>
 
 namespace vulkanite::window {
@@ -24,8 +28,10 @@ namespace vulkanite::window {
         [[nodiscard]] Backend queryBackend() const;
 
     private:
-        static std::size_t subsystemCount_;
+        static inline std::size_t subsystemCount_ = 0;
     };
 }
 
 #include "detail/subsystem.inl"
+
+#endif

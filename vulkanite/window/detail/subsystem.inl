@@ -1,15 +1,12 @@
 #pragma once
 
-#if defined(VULKANITE_WINDOW_SUBSYSTEM_IMPLEMENTATION)
-
-#include <vulkanite/window/configuration.hpp>
-#include <vulkanite/window/subsystem.hpp>
+#include "../subsystem.hpp"
+#include "../window.hpp"
 
 #include <stdexcept>
 
+#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-
-std::size_t vulkanite::window::Subsystem::subsystemCount_ = 0;
 
 vulkanite::window::Subsystem::Subsystem() {
     subsystemCount_++;
@@ -63,5 +60,3 @@ vulkanite::window::Backend vulkanite::window::Subsystem::queryBackend() const {
             throw std::runtime_error("Call failed: vulkanite::window::Subsystem::queryBackend(): Backend is unrecognised");
     }
 }
-
-#endif

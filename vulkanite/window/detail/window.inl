@@ -1,12 +1,11 @@
 #pragma once
 
-#if defined(VULKANITE_WINDOW_WINDOW_IMPLEMENTATION)
-
-#include <vulkanite/window/configuration.hpp>
-#include <vulkanite/window/window.hpp>
+#include "../subsystem.hpp"
+#include "../window.hpp"
 
 #include <stdexcept>
 
+#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
 vulkanite::window::Window::Window(const WindowCreateInfo& createInfo)
@@ -144,7 +143,7 @@ vulkanite::window::Event vulkanite::window::Window::getNextEvent() {
     return event;
 }
 
-const vulkanite::window::Handle& vulkanite::window::Window::getHandle() {
+const vulkanite::window::HandleType& vulkanite::window::Window::getHandle() {
     return handle_;
 }
 
@@ -653,5 +652,3 @@ vulkanite::window::MouseButton vulkanite::window::Window::mapMouseButton(int but
 
     throw;
 }
-
-#endif
