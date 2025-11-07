@@ -4,7 +4,7 @@
 #include "../image.hpp"
 #include "../image_view.hpp"
 
-void vulkanite::renderer::ImageView::create(const ImageViewCreateInfo& createInfo) {
+inline void vulkanite::renderer::ImageView::create(const ImageViewCreateInfo& createInfo) {
     VkImageViewCreateInfo viewCreateInfo = {
         .sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
         .pNext = nullptr,
@@ -37,7 +37,7 @@ void vulkanite::renderer::ImageView::create(const ImageViewCreateInfo& createInf
     }
 }
 
-void vulkanite::renderer::ImageView::destroy() {
+inline void vulkanite::renderer::ImageView::destroy() {
     if (imageView_) {
         vkDestroyImageView(device_, imageView_, nullptr);
 
@@ -45,27 +45,27 @@ void vulkanite::renderer::ImageView::destroy() {
     }
 }
 
-vulkanite::renderer::ImageViewType vulkanite::renderer::ImageView::getType() const {
+inline vulkanite::renderer::ImageViewType vulkanite::renderer::ImageView::getType() const {
     return reverseMapType(imageViewType_);
 }
 
-std::uint32_t vulkanite::renderer::ImageView::getBaseMipLevel() const {
+inline std::uint32_t vulkanite::renderer::ImageView::getBaseMipLevel() const {
     return baseMipLevel_;
 }
 
-std::uint32_t vulkanite::renderer::ImageView::getLevelCount() const {
+inline std::uint32_t vulkanite::renderer::ImageView::getLevelCount() const {
     return levelCount_;
 }
 
-std::uint32_t vulkanite::renderer::ImageView::getBaseArrayLayer() const {
+inline std::uint32_t vulkanite::renderer::ImageView::getBaseArrayLayer() const {
     return baseArrayLayer_;
 }
 
-std::uint32_t vulkanite::renderer::ImageView::getLayerCount() const {
+inline std::uint32_t vulkanite::renderer::ImageView::getLayerCount() const {
     return layerCount_;
 }
 
-VkImageViewType vulkanite::renderer::ImageView::mapType(ImageViewType type) {
+inline VkImageViewType vulkanite::renderer::ImageView::mapType(ImageViewType type) {
     switch (type) {
         case ImageViewType::IMAGE_1D:
             return VK_IMAGE_VIEW_TYPE_1D;
@@ -81,7 +81,7 @@ VkImageViewType vulkanite::renderer::ImageView::mapType(ImageViewType type) {
     }
 }
 
-vulkanite::renderer::ImageViewType vulkanite::renderer::ImageView::reverseMapType(VkImageViewType type) {
+inline vulkanite::renderer::ImageViewType vulkanite::renderer::ImageView::reverseMapType(VkImageViewType type) {
     switch (type) {
         case VK_IMAGE_VIEW_TYPE_1D:
             return ImageViewType::IMAGE_1D;

@@ -5,7 +5,7 @@
 #include "../device.hpp"
 #include "../queue.hpp"
 
-void vulkanite::renderer::CommandPool::create(const CommandPoolCreateInfo& createInfo) {
+inline void vulkanite::renderer::CommandPool::create(const CommandPoolCreateInfo& createInfo) {
     auto& device = createInfo.device.device_;
 
     VkCommandPoolCreateInfo poolCreateInfo = {
@@ -24,7 +24,7 @@ void vulkanite::renderer::CommandPool::create(const CommandPoolCreateInfo& creat
     }
 }
 
-void vulkanite::renderer::CommandPool::destroy() {
+inline void vulkanite::renderer::CommandPool::destroy() {
     if (commandPool_) {
         vkDestroyCommandPool(device_->device_, commandPool_, nullptr);
 
@@ -32,7 +32,7 @@ void vulkanite::renderer::CommandPool::destroy() {
     }
 }
 
-std::vector<vulkanite::renderer::CommandBuffer> vulkanite::renderer::CommandPool::allocateCommandBuffers(std::uint32_t count) {
+inline std::vector<vulkanite::renderer::CommandBuffer> vulkanite::renderer::CommandPool::allocateCommandBuffers(std::uint32_t count) {
     VkCommandBufferAllocateInfo bufferAllocateInfo = {
         .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
         .pNext = nullptr,
@@ -64,7 +64,7 @@ std::vector<vulkanite::renderer::CommandBuffer> vulkanite::renderer::CommandPool
     return buffers;
 }
 
-void vulkanite::renderer::CommandPool::destroyCommandBuffers(const std::vector<CommandBuffer>& buffers) {
+inline void vulkanite::renderer::CommandPool::destroyCommandBuffers(const std::vector<CommandBuffer>& buffers) {
     std::vector<VkCommandBuffer> commandBuffers(buffers.size());
 
     for (std::uint64_t i = 0; i < buffers.size(); i++) {
@@ -74,6 +74,6 @@ void vulkanite::renderer::CommandPool::destroyCommandBuffers(const std::vector<C
     vkFreeCommandBuffers(device_->device_, commandPool_, static_cast<std::uint32_t>(commandBuffers.size()), commandBuffers.data());
 }
 
-bool vulkanite::renderer::CommandPool::resetAllCommandBuffers() {
+inline bool vulkanite::renderer::CommandPool::resetAllCommandBuffers() {
     return vkResetCommandPool(device_->device_, commandPool_, 0) == VK_SUCCESS;
 }

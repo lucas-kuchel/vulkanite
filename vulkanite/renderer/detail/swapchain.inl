@@ -11,7 +11,7 @@
 #include <limits>
 #include <stdexcept>
 
-vulkanite::renderer::SwapchainResult vulkanite::renderer::Swapchain::create(const SwapchainCreateInfo& createInfo) {
+inline vulkanite::renderer::SwapchainResult vulkanite::renderer::Swapchain::create(const SwapchainCreateInfo& createInfo) {
     VkSwapchainKHR oldSwapchain = nullptr;
 
     synchronise_ = createInfo.shouldSynchronise;
@@ -93,7 +93,7 @@ vulkanite::renderer::SwapchainResult vulkanite::renderer::Swapchain::create(cons
     }
 }
 
-void vulkanite::renderer::Swapchain::destroy() {
+inline void vulkanite::renderer::Swapchain::destroy() {
     if (swapchain_) {
         for (auto& image : images_) {
             image.image_ = nullptr;
@@ -112,7 +112,7 @@ void vulkanite::renderer::Swapchain::destroy() {
     }
 }
 
-bool vulkanite::renderer::Swapchain::acquireNextImage(Semaphore& acquireSemaphore) {
+inline bool vulkanite::renderer::Swapchain::acquireNextImage(Semaphore& acquireSemaphore) {
     if (recreate_) {
         return false;
     }
@@ -129,7 +129,7 @@ bool vulkanite::renderer::Swapchain::acquireNextImage(Semaphore& acquireSemaphor
     return true;
 }
 
-bool vulkanite::renderer::Swapchain::presentNextImage(Semaphore& presentSemaphore) {
+inline bool vulkanite::renderer::Swapchain::presentNextImage(Semaphore& presentSemaphore) {
     auto& queue = presentQueue_->queue_;
 
     VkPresentInfoKHR presentInfo = {
@@ -155,39 +155,39 @@ bool vulkanite::renderer::Swapchain::presentNextImage(Semaphore& presentSemaphor
     return true;
 }
 
-vulkanite::renderer::ImageFormat vulkanite::renderer::Swapchain::getFormat() const {
+inline vulkanite::renderer::ImageFormat vulkanite::renderer::Swapchain::getFormat() const {
     return Image::reverseMapFormat(images_.front().format_);
 }
 
-std::uint32_t vulkanite::renderer::Swapchain::getImageCount() const {
+inline std::uint32_t vulkanite::renderer::Swapchain::getImageCount() const {
     return imageCount_;
 }
 
-std::uint32_t vulkanite::renderer::Swapchain::getImageIndex() const {
+inline std::uint32_t vulkanite::renderer::Swapchain::getImageIndex() const {
     return imageIndex_;
 }
 
-std::span<const vulkanite::renderer::Image> vulkanite::renderer::Swapchain::getImages() const {
+inline std::span<const vulkanite::renderer::Image> vulkanite::renderer::Swapchain::getImages() const {
     return images_;
 }
 
-std::span<const vulkanite::renderer::ImageView> vulkanite::renderer::Swapchain::getImageViews() const {
+inline std::span<const vulkanite::renderer::ImageView> vulkanite::renderer::Swapchain::getImageViews() const {
     return imageViews_;
 }
 
-bool vulkanite::renderer::Swapchain::isSynchronised() const {
+inline bool vulkanite::renderer::Swapchain::isSynchronised() const {
     return synchronise_;
 }
 
-bool vulkanite::renderer::Swapchain::shouldRecreate() const {
+inline bool vulkanite::renderer::Swapchain::shouldRecreate() const {
     return recreate_;
 }
 
-glm::uvec2 vulkanite::renderer::Swapchain::getExtent() const {
+inline glm::uvec2 vulkanite::renderer::Swapchain::getExtent() const {
     return {extent_.width, extent_.height};
 }
 
-void vulkanite::renderer::Swapchain::createImageResources() {
+inline void vulkanite::renderer::Swapchain::createImageResources() {
     auto& device = device_->device_;
 
     std::uint32_t actualImageCount = 0;
@@ -239,7 +239,7 @@ void vulkanite::renderer::Swapchain::createImageResources() {
     }
 }
 
-VkSurfaceCapabilitiesKHR vulkanite::renderer::Swapchain::getSurfaceCapabilities() {
+inline VkSurfaceCapabilitiesKHR vulkanite::renderer::Swapchain::getSurfaceCapabilities() {
     auto& physicalDevice = instance_->physicalDevice_;
     auto& surface = surface_->surface_;
     auto extent = surface_->getExtent();
@@ -269,7 +269,7 @@ VkSurfaceCapabilitiesKHR vulkanite::renderer::Swapchain::getSurfaceCapabilities(
     return surfaceCapabilities;
 }
 
-void vulkanite::renderer::Swapchain::selectSurfaceFormat() {
+inline void vulkanite::renderer::Swapchain::selectSurfaceFormat() {
     auto& physicalDevice = instance_->physicalDevice_;
     auto& surface = surface_->surface_;
 
@@ -301,7 +301,7 @@ void vulkanite::renderer::Swapchain::selectSurfaceFormat() {
     }
 }
 
-void vulkanite::renderer::Swapchain::selectPresentMode() {
+inline void vulkanite::renderer::Swapchain::selectPresentMode() {
     auto& physicalDevice = instance_->physicalDevice_;
     auto& surface = surface_->surface_;
 

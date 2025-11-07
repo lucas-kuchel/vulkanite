@@ -7,7 +7,7 @@
 #include "../semaphore.hpp"
 #include "../surface.hpp"
 
-bool vulkanite::renderer::Queue::submit(const QueueSubmitInfo& submitInfo) {
+inline bool vulkanite::renderer::Queue::submit(const QueueSubmitInfo& submitInfo) {
     std::vector<VkCommandBuffer> buffers(submitInfo.commandBuffers.size());
     std::vector<VkSemaphore> waits(submitInfo.waits.size());
     std::vector<VkSemaphore> signals(submitInfo.signals.size());

@@ -9,7 +9,7 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-void vulkanite::window::Window::create(const WindowCreateInfo& createInfo) {
+inline void vulkanite::window::Window::create(const WindowCreateInfo& createInfo) {
     extent_ = createInfo.extent;
     title_ = createInfo.title;
     visibility_ = createInfo.visibility;
@@ -57,7 +57,7 @@ void vulkanite::window::Window::create(const WindowCreateInfo& createInfo) {
     glfwSetScrollCallback(handle_, mouseScrollCallback);
 }
 
-void vulkanite::window::Window::destroy() {
+inline void vulkanite::window::Window::destroy() {
     if (handle_) {
         glfwDestroyWindow(handle_);
 
@@ -65,19 +65,19 @@ void vulkanite::window::Window::destroy() {
     }
 }
 
-void vulkanite::window::Window::setExtent(const glm::uvec2& extent) {
+inline void vulkanite::window::Window::setExtent(const glm::uvec2& extent) {
     extent_ = extent;
 
     glfwSetWindowSize(handle_, static_cast<std::int32_t>(extent_.x), static_cast<std::int32_t>(extent_.y));
 }
 
-void vulkanite::window::Window::setTitle(const std::string& title) {
+inline void vulkanite::window::Window::setTitle(const std::string& title) {
     title_ = title;
 
     glfwSetWindowTitle(handle_, title_.c_str());
 }
 
-void vulkanite::window::Window::setVisibility(const Visibility& visibility) {
+inline void vulkanite::window::Window::setVisibility(const Visibility& visibility) {
     if (visibility == visibility_) {
         return;
     }
@@ -119,23 +119,23 @@ void vulkanite::window::Window::setVisibility(const Visibility& visibility) {
     visibility_ = visibility;
 }
 
-const glm::uvec2& vulkanite::window::Window::getExtent() const {
+inline const glm::uvec2& vulkanite::window::Window::getExtent() const {
     return extent_;
 }
 
-const std::string& vulkanite::window::Window::getTitle() const {
+inline const std::string& vulkanite::window::Window::getTitle() const {
     return title_;
 }
 
-const vulkanite::window::Visibility& vulkanite::window::Window::getVisibility() const {
+inline const vulkanite::window::Visibility& vulkanite::window::Window::getVisibility() const {
     return visibility_;
 }
 
-bool vulkanite::window::Window::hasEvents() const {
+inline bool vulkanite::window::Window::hasEvents() const {
     return !events_.empty();
 }
 
-vulkanite::window::Event vulkanite::window::Window::getNextEvent() {
+inline vulkanite::window::Event vulkanite::window::Window::getNextEvent() {
     if (events_.empty()) {
         throw std::runtime_error("Illegal call to vulkanite::window::Window::getNextEvent(): No events to process");
     }
@@ -147,11 +147,11 @@ vulkanite::window::Event vulkanite::window::Window::getNextEvent() {
     return event;
 }
 
-const vulkanite::window::HandleType& vulkanite::window::Window::getHandle() {
+inline const vulkanite::window::HandleType& vulkanite::window::Window::getHandle() {
     return handle_;
 }
 
-void vulkanite::window::Window::resizeCallback(GLFWwindow* window, int width, int height) {
+inline void vulkanite::window::Window::resizeCallback(GLFWwindow* window, int width, int height) {
     auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
     if (!self) {
@@ -177,7 +177,7 @@ void vulkanite::window::Window::resizeCallback(GLFWwindow* window, int width, in
     self->events_.push(event);
 }
 
-void vulkanite::window::Window::closeCallback(GLFWwindow* window) {
+inline void vulkanite::window::Window::closeCallback(GLFWwindow* window) {
     auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
     if (!self) {
@@ -192,7 +192,7 @@ void vulkanite::window::Window::closeCallback(GLFWwindow* window) {
     self->events_.push(event);
 }
 
-void vulkanite::window::Window::focusCallback(GLFWwindow* window, int focused) {
+inline void vulkanite::window::Window::focusCallback(GLFWwindow* window, int focused) {
     auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
     if (!self) {
@@ -207,7 +207,7 @@ void vulkanite::window::Window::focusCallback(GLFWwindow* window, int focused) {
     self->events_.push(event);
 }
 
-void vulkanite::window::Window::iconifyCallback(GLFWwindow* window, int iconified) {
+inline void vulkanite::window::Window::iconifyCallback(GLFWwindow* window, int iconified) {
     auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
     if (!self) {
@@ -230,7 +230,7 @@ void vulkanite::window::Window::iconifyCallback(GLFWwindow* window, int iconifie
     self->events_.push(event);
 }
 
-void vulkanite::window::Window::keyCallback(GLFWwindow* window, int key, int, int action, int) {
+inline void vulkanite::window::Window::keyCallback(GLFWwindow* window, int key, int, int action, int) {
     auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
     if (!self) {
@@ -269,7 +269,7 @@ void vulkanite::window::Window::keyCallback(GLFWwindow* window, int key, int, in
     self->events_.push(event);
 }
 
-void vulkanite::window::Window::mouseButtonCallback(GLFWwindow* window, int button, int action, int) {
+inline void vulkanite::window::Window::mouseButtonCallback(GLFWwindow* window, int button, int action, int) {
     auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
     if (!self) {
@@ -308,7 +308,7 @@ void vulkanite::window::Window::mouseButtonCallback(GLFWwindow* window, int butt
     self->events_.push(event);
 }
 
-void vulkanite::window::Window::mousePositionCallback(GLFWwindow* window, double x, double y) {
+inline void vulkanite::window::Window::mousePositionCallback(GLFWwindow* window, double x, double y) {
     auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
     if (!self) {
@@ -336,7 +336,7 @@ void vulkanite::window::Window::mousePositionCallback(GLFWwindow* window, double
     self->events_.push(event);
 }
 
-void vulkanite::window::Window::mouseScrollCallback(GLFWwindow* window, double x, double y) {
+inline void vulkanite::window::Window::mouseScrollCallback(GLFWwindow* window, double x, double y) {
     auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
     if (!self) {
@@ -357,7 +357,7 @@ void vulkanite::window::Window::mouseScrollCallback(GLFWwindow* window, double x
     self->events_.push(event);
 }
 
-vulkanite::window::Key vulkanite::window::Window::mapKey(int key) {
+inline vulkanite::window::Key vulkanite::window::Window::mapKey(int key) {
     switch (key) {
         case GLFW_KEY_A:
             return Key::A;
@@ -642,7 +642,7 @@ vulkanite::window::Key vulkanite::window::Window::mapKey(int key) {
     throw;
 }
 
-vulkanite::window::MouseButton vulkanite::window::Window::mapMouseButton(int button) {
+inline vulkanite::window::MouseButton vulkanite::window::Window::mapMouseButton(int button) {
     switch (button) {
         case GLFW_MOUSE_BUTTON_LEFT:
             return MouseButton::LEFT;

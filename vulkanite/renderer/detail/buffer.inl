@@ -4,7 +4,7 @@
 #include "../device.hpp"
 #include "../instance.hpp"
 
-void vulkanite::renderer::Buffer::create(const BufferCreateInfo& createInfo) {
+inline void vulkanite::renderer::Buffer::create(const BufferCreateInfo& createInfo) {
     VmaMemoryUsage memoryUsage;
     VkMemoryPropertyFlags memoryProperties;
 
@@ -63,7 +63,7 @@ void vulkanite::renderer::Buffer::create(const BufferCreateInfo& createInfo) {
     }
 }
 
-void vulkanite::renderer::Buffer::destroy() {
+inline void vulkanite::renderer::Buffer::destroy() {
     if (buffer_) {
         vmaDestroyBuffer(device_->allocator_, buffer_, allocation_);
 
@@ -71,7 +71,7 @@ void vulkanite::renderer::Buffer::destroy() {
     }
 }
 
-vulkanite::renderer::BufferMapping vulkanite::renderer::Buffer::map(std::uint64_t size, std::uint64_t offset) {
+inline vulkanite::renderer::BufferMapping vulkanite::renderer::Buffer::map(std::uint64_t size, std::uint64_t offset) {
     BufferMapping mapping;
 
     mapping.offset = offset;
@@ -101,7 +101,7 @@ vulkanite::renderer::BufferMapping vulkanite::renderer::Buffer::map(std::uint64_
     return mapping;
 }
 
-void vulkanite::renderer::Buffer::unmap(BufferMapping& mapping) {
+inline void vulkanite::renderer::Buffer::unmap(BufferMapping& mapping) {
     if (!isHostCoherent_) {
         vmaFlushAllocation(device_->allocator_, allocation_, mapping.alignedOffset, mapping.alignedSize);
     }
@@ -109,10 +109,10 @@ void vulkanite::renderer::Buffer::unmap(BufferMapping& mapping) {
     vmaUnmapMemory(device_->allocator_, allocation_);
 }
 
-std::uint64_t vulkanite::renderer::Buffer::getSize() const {
+inline std::uint64_t vulkanite::renderer::Buffer::getSize() const {
     return size_;
 }
 
-bool vulkanite::renderer::Buffer::canBeMapped() const {
+inline bool vulkanite::renderer::Buffer::canBeMapped() const {
     return isHostVisible_;
 }

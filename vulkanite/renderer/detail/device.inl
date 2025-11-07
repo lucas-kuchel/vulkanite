@@ -13,7 +13,7 @@
 #include <stdexcept>
 #include <unordered_map>
 
-void vulkanite::renderer::Device::create(const DeviceCreateInfo& createInfo) {
+inline void vulkanite::renderer::Device::create(const DeviceCreateInfo& createInfo) {
     std::vector<std::uint32_t> familyIndexMappings;
     std::vector<std::vector<float>> familyIndexPriorities;
 
@@ -194,7 +194,7 @@ void vulkanite::renderer::Device::create(const DeviceCreateInfo& createInfo) {
     }
 }
 
-void vulkanite::renderer::Device::destroy() {
+inline void vulkanite::renderer::Device::destroy() {
     if (allocator_) {
         vmaDestroyAllocator(allocator_);
 
@@ -208,11 +208,11 @@ void vulkanite::renderer::Device::destroy() {
     }
 }
 
-bool vulkanite::renderer::Device::waitIdle() {
+inline bool vulkanite::renderer::Device::waitIdle() {
     return vkDeviceWaitIdle(device_) == VK_SUCCESS;
 }
 
-bool vulkanite::renderer::Device::waitForFences(const std::vector<Fence>& fences, bool waitAll, std::uint32_t timeout) {
+inline bool vulkanite::renderer::Device::waitForFences(const std::vector<Fence>& fences, bool waitAll, std::uint32_t timeout) {
     std::vector<VkFence> vkFences(fences.size());
 
     for (std::uint64_t i = 0; i < fences.size(); i++) {
@@ -222,7 +222,7 @@ bool vulkanite::renderer::Device::waitForFences(const std::vector<Fence>& fences
     return vkWaitForFences(device_, static_cast<std::uint32_t>(vkFences.size()), vkFences.data(), waitAll, timeout) == VK_SUCCESS;
 }
 
-bool vulkanite::renderer::Device::resetFences(const std::vector<Fence>& fences) {
+inline bool vulkanite::renderer::Device::resetFences(const std::vector<Fence>& fences) {
     std::vector<VkFence> vkFences(fences.size());
 
     for (std::uint64_t i = 0; i < fences.size(); i++) {
@@ -232,7 +232,7 @@ bool vulkanite::renderer::Device::resetFences(const std::vector<Fence>& fences) 
     return vkResetFences(device_, static_cast<std::uint32_t>(vkFences.size()), vkFences.data()) == VK_SUCCESS;
 }
 
-std::vector<vulkanite::renderer::Pipeline> vulkanite::renderer::Device::createPipelines(const std::vector<PipelineCreateInfo>& createInfos) {
+inline std::vector<vulkanite::renderer::Pipeline> vulkanite::renderer::Device::createPipelines(const std::vector<PipelineCreateInfo>& createInfos) {
     struct PipelineCreationData {
         std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
         std::vector<VkVertexInputBindingDescription> bindings;
@@ -490,6 +490,6 @@ std::vector<vulkanite::renderer::Pipeline> vulkanite::renderer::Device::createPi
     return pipelines;
 }
 
-std::span<vulkanite::renderer::Queue> vulkanite::renderer::Device::getQueues() {
+inline std::span<vulkanite::renderer::Queue> vulkanite::renderer::Device::getQueues() {
     return queues_;
 }

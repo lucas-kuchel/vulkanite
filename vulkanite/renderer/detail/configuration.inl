@@ -3,7 +3,7 @@
 #include "../configuration.hpp"
 
 namespace vulkanite::renderer {
-    VkFlags BufferUsageFlags::mapFrom(Flags flags) {
+    inline VkFlags BufferUsageFlags::mapFrom(Flags flags) {
         struct FlagMap {
             uint32_t flag;
             VkFlags vkFlag;
@@ -29,7 +29,7 @@ namespace vulkanite::renderer {
         return vkFlags;
     }
 
-    VkFlags StencilFaceFlags::mapFrom(Flags flags) {
+    inline VkFlags StencilFaceFlags::mapFrom(Flags flags) {
         struct FlagMap {
             uint32_t flag;
             VkFlags vkFlag;
@@ -52,7 +52,7 @@ namespace vulkanite::renderer {
         return vkFlags;
     }
 
-    VkFlags ImageAspectFlags::mapFrom(Flags flags) {
+    inline VkFlags ImageAspectFlags::mapFrom(Flags flags) {
         struct FlagMap {
             uint32_t flag;
             VkFlags vkFlag;
@@ -75,7 +75,7 @@ namespace vulkanite::renderer {
         return vkFlags;
     }
 
-    VkFlags AccessFlags::mapFrom(Flags flags) {
+    inline VkFlags AccessFlags::mapFrom(Flags flags) {
         struct FlagMap {
             uint32_t flag;
             VkFlags vkFlag;
@@ -112,7 +112,7 @@ namespace vulkanite::renderer {
         return vkFlags;
     }
 
-    VkFlags FenceCreateFlags::mapFrom(Flags flags) {
+    inline VkFlags FenceCreateFlags::mapFrom(Flags flags) {
         struct FlagMap {
             uint32_t flag;
             VkFlags vkFlag;
@@ -133,7 +133,7 @@ namespace vulkanite::renderer {
         return vkFlags;
     }
 
-    VkFlags ImageUsageFlags::mapFrom(Flags flags) {
+    inline VkFlags ImageUsageFlags::mapFrom(Flags flags) {
         struct FlagMap {
             uint32_t flag;
             VkFlags vkFlag;
@@ -159,7 +159,7 @@ namespace vulkanite::renderer {
         return vkFlags;
     }
 
-    VkFlags PipelineStageFlags::mapFrom(Flags flags) {
+    inline VkFlags PipelineStageFlags::mapFrom(Flags flags) {
         struct FlagMap {
             uint32_t flag;
             VkFlags vkFlag;

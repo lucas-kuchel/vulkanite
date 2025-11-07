@@ -6,7 +6,7 @@
 
 #include <stdexcept>
 
-void vulkanite::renderer::Image::create(const ImageCreateInfo& createInfo) {
+inline void vulkanite::renderer::Image::create(const ImageCreateInfo& createInfo) {
     VmaMemoryUsage memoryUsage;
     VkMemoryPropertyFlags memoryProperties;
 
@@ -78,13 +78,13 @@ void vulkanite::renderer::Image::create(const ImageCreateInfo& createInfo) {
     }
 }
 
-void vulkanite::renderer::Image::destroy() {
+inline void vulkanite::renderer::Image::destroy() {
     if (image_) {
         vmaDestroyImage(device_->allocator_, image_, allocation_);
     }
 }
 
-vulkanite::renderer::ImageMapping vulkanite::renderer::Image::map(std::uint64_t sizeBytes, std::uint64_t offsetBytes) {
+inline vulkanite::renderer::ImageMapping vulkanite::renderer::Image::map(std::uint64_t sizeBytes, std::uint64_t offsetBytes) {
     ImageMapping mapping;
 
     mapping.offset = offsetBytes;
@@ -114,7 +114,7 @@ vulkanite::renderer::ImageMapping vulkanite::renderer::Image::map(std::uint64_t 
     return mapping;
 }
 
-void vulkanite::renderer::Image::unmap(ImageMapping& mapping) {
+inline void vulkanite::renderer::Image::unmap(ImageMapping& mapping) {
     if (!isHostCoherent_) {
         vmaFlushAllocation(device_->allocator_, allocation_, mapping.alignedOffset, mapping.alignedSize);
     }
@@ -122,39 +122,39 @@ void vulkanite::renderer::Image::unmap(ImageMapping& mapping) {
     vmaUnmapMemory(device_->allocator_, allocation_);
 }
 
-bool vulkanite::renderer::Image::canBeMapped() const {
+inline bool vulkanite::renderer::Image::canBeMapped() const {
     return isHostCoherent_;
 }
 
-vulkanite::renderer::ImageFormat vulkanite::renderer::Image::getFormat() const {
+inline vulkanite::renderer::ImageFormat vulkanite::renderer::Image::getFormat() const {
     return reverseMapFormat(format_);
 }
 
-vulkanite::renderer::ImageType vulkanite::renderer::Image::getType() const {
+inline vulkanite::renderer::ImageType vulkanite::renderer::Image::getType() const {
     return reverseMapType(type_);
 }
 
-std::uint64_t vulkanite::renderer::Image::getSize() const {
+inline std::uint64_t vulkanite::renderer::Image::getSize() const {
     return size_;
 }
 
-glm::uvec3 vulkanite::renderer::Image::getExtent() const {
+inline glm::uvec3 vulkanite::renderer::Image::getExtent() const {
     return extent_;
 }
 
-std::uint32_t vulkanite::renderer::Image::getSampleCount() const {
+inline std::uint32_t vulkanite::renderer::Image::getSampleCount() const {
     return sampleCount_;
 }
 
-std::uint32_t vulkanite::renderer::Image::getMipLevels() const {
+inline std::uint32_t vulkanite::renderer::Image::getMipLevels() const {
     return mipLevels_;
 }
 
-std::uint32_t vulkanite::renderer::Image::getArrayLayers() const {
+inline std::uint32_t vulkanite::renderer::Image::getArrayLayers() const {
     return arrayLayers_;
 }
 
-VkFormat vulkanite::renderer::Image::mapFormat(ImageFormat format, Instance& instance) {
+inline VkFormat vulkanite::renderer::Image::mapFormat(ImageFormat format, Instance& instance) {
     auto findSupportedFormat = [&](const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features) -> VkFormat {
         for (VkFormat vkFormat : candidates) {
             VkFormatProperties properties;
@@ -232,7 +232,7 @@ VkFormat vulkanite::renderer::Image::mapFormat(ImageFormat format, Instance& ins
     }
 }
 
-VkImageType vulkanite::renderer::Image::mapType(ImageType type) {
+inline VkImageType vulkanite::renderer::Image::mapType(ImageType type) {
     switch (type) {
         case ImageType::IMAGE_1D:
             return VK_IMAGE_TYPE_1D;
@@ -248,7 +248,7 @@ VkImageType vulkanite::renderer::Image::mapType(ImageType type) {
     }
 }
 
-vulkanite::renderer::ImageFormat vulkanite::renderer::Image::reverseMapFormat(VkFormat format) {
+inline vulkanite::renderer::ImageFormat vulkanite::renderer::Image::reverseMapFormat(VkFormat format) {
     switch (format) {
         case VK_FORMAT_R8_UNORM:
             return ImageFormat::R8_UNORM;
@@ -291,7 +291,7 @@ vulkanite::renderer::ImageFormat vulkanite::renderer::Image::reverseMapFormat(Vk
     }
 }
 
-vulkanite::renderer::ImageType vulkanite::renderer::Image::reverseMapType(VkImageType type) {
+inline vulkanite::renderer::ImageType vulkanite::renderer::Image::reverseMapType(VkImageType type) {
     switch (type) {
         case VK_IMAGE_TYPE_1D:
             return ImageType::IMAGE_1D;

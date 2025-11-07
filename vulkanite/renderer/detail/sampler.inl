@@ -1,9 +1,9 @@
 #pragma once
 
-#include <renderer/device.hpp>
-#include <renderer/sampler.hpp>
+#include "../device.hpp"
+#include "../sampler.hpp"
 
-void vulkanite::renderer::Sampler::create(const SamplerCreateInfo& createInfo) {
+inline void vulkanite::renderer::Sampler::create(const SamplerCreateInfo& createInfo) {
     VkFilter min;
     VkFilter mag;
 
@@ -204,7 +204,7 @@ void vulkanite::renderer::Sampler::create(const SamplerCreateInfo& createInfo) {
     }
 }
 
-void vulkanite::renderer::Sampler::destroy() {
+inline void vulkanite::renderer::Sampler::destroy() {
     if (sampler_) {
         vkDestroySampler(device_->device_, sampler_, nullptr);
 

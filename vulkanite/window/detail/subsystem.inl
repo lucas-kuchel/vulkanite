@@ -9,7 +9,7 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-void vulkanite::window::Subsystem::create() {
+inline void vulkanite::window::Subsystem::create() {
     subsystemCount_++;
 
     if (subsystemCount_ > 1) {
@@ -23,7 +23,7 @@ void vulkanite::window::Subsystem::create() {
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 }
 
-void vulkanite::window::Subsystem::destroy() {
+inline void vulkanite::window::Subsystem::destroy() {
     subsystemCount_--;
 
     if (subsystemCount_ == 0) {
@@ -31,19 +31,19 @@ void vulkanite::window::Subsystem::destroy() {
     }
 }
 
-void vulkanite::window::Subsystem::pollEvents() {
+inline void vulkanite::window::Subsystem::pollEvents() {
     glfwPollEvents();
 }
 
-void vulkanite::window::Subsystem::awaitEvents() {
+inline void vulkanite::window::Subsystem::awaitEvents() {
     glfwWaitEvents();
 }
 
-void vulkanite::window::Subsystem::awaitEventsTimeout(double timeout) {
+inline void vulkanite::window::Subsystem::awaitEventsTimeout(double timeout) {
     glfwWaitEventsTimeout(timeout);
 }
 
-vulkanite::window::Backend vulkanite::window::Subsystem::queryBackend() const {
+inline vulkanite::window::Backend vulkanite::window::Subsystem::queryBackend() const {
     switch (glfwGetPlatform()) {
         case GLFW_PLATFORM_COCOA:
             return Backend::COCOA;

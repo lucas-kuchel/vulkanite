@@ -6,7 +6,7 @@
 #include "../pipeline.hpp"
 #include "../sampler.hpp"
 
-void vulkanite::renderer::DescriptorSetLayout::create(const DescriptorSetLayoutCreateInfo& createInfo) {
+inline void vulkanite::renderer::DescriptorSetLayout::create(const DescriptorSetLayoutCreateInfo& createInfo) {
     std::vector<VkDescriptorSetLayoutBinding> bindings(createInfo.inputs.size());
 
     for (std::uint64_t i = 0; i < bindings.size(); i++) {
@@ -64,7 +64,7 @@ void vulkanite::renderer::DescriptorSetLayout::create(const DescriptorSetLayoutC
     }
 }
 
-void vulkanite::renderer::DescriptorSetLayout::destroy() {
+inline void vulkanite::renderer::DescriptorSetLayout::destroy() {
     if (descriptorSetLayout_) {
         vkDestroyDescriptorSetLayout(device_->device_, descriptorSetLayout_, nullptr);
 
@@ -72,7 +72,7 @@ void vulkanite::renderer::DescriptorSetLayout::destroy() {
     }
 }
 
-void vulkanite::renderer::DescriptorPool::create(const DescriptorPoolCreateInfo& createInfo) {
+inline void vulkanite::renderer::DescriptorPool::create(const DescriptorPoolCreateInfo& createInfo) {
     std::vector<VkDescriptorPoolSize> poolSizes(createInfo.poolSizes.size());
 
     for (std::uint64_t i = 0; i < poolSizes.size(); i++) {
@@ -115,7 +115,7 @@ void vulkanite::renderer::DescriptorPool::create(const DescriptorPoolCreateInfo&
     }
 }
 
-void vulkanite::renderer::DescriptorPool::destroy() {
+inline void vulkanite::renderer::DescriptorPool::destroy() {
     if (descriptorPool_) {
         vkDestroyDescriptorPool(device_->device_, descriptorPool_, nullptr);
 
@@ -123,7 +123,7 @@ void vulkanite::renderer::DescriptorPool::destroy() {
     }
 }
 
-std::vector<vulkanite::renderer::DescriptorSet> vulkanite::renderer::DescriptorPool::allocateDescriptorSets(const DescriptorSetCreateInfo& createInfo) {
+inline std::vector<vulkanite::renderer::DescriptorSet> vulkanite::renderer::DescriptorPool::allocateDescriptorSets(const DescriptorSetCreateInfo& createInfo) {
     std::vector<VkDescriptorSet> descriptorSets(createInfo.layouts.size());
     std::vector<VkDescriptorSetLayout> layouts(createInfo.layouts.size());
 
@@ -160,7 +160,7 @@ std::vector<vulkanite::renderer::DescriptorSet> vulkanite::renderer::DescriptorP
     return sets;
 }
 
-void vulkanite::renderer::DescriptorPool::updateDescriptorSets(std::vector<DescriptorSetUpdateInfo> updateInfos) {
+inline void vulkanite::renderer::DescriptorPool::updateDescriptorSets(std::vector<DescriptorSetUpdateInfo> updateInfos) {
     std::vector<VkWriteDescriptorSet> writes(updateInfos.size());
 
     std::vector<std::vector<VkDescriptorBufferInfo>> bufferInfos(updateInfos.size());
@@ -245,7 +245,7 @@ void vulkanite::renderer::DescriptorPool::updateDescriptorSets(std::vector<Descr
     vkUpdateDescriptorSets(device_->device_, static_cast<std::uint32_t>(writes.size()), writes.data(), 0, nullptr);
 }
 
-void vulkanite::renderer::PipelineLayout::create(const PipelineLayoutCreateInfo& createInfo) {
+inline void vulkanite::renderer::PipelineLayout::create(const PipelineLayoutCreateInfo& createInfo) {
     std::vector<VkDescriptorSetLayout> descriptorSets(createInfo.inputLayouts.size());
     std::vector<VkPushConstantRange> pushConstants(createInfo.pushConstants.size());
 
@@ -296,7 +296,7 @@ void vulkanite::renderer::PipelineLayout::create(const PipelineLayoutCreateInfo&
     }
 }
 
-void vulkanite::renderer::PipelineLayout::destroy() {
+inline void vulkanite::renderer::PipelineLayout::destroy() {
     if (pipelineLayout_) {
         vkDestroyPipelineLayout(device_->device_, pipelineLayout_, nullptr);
 
@@ -304,7 +304,7 @@ void vulkanite::renderer::PipelineLayout::destroy() {
     }
 }
 
-void vulkanite::renderer::Pipeline::destroy() {
+inline void vulkanite::renderer::Pipeline::destroy() {
     if (pipeline_ != nullptr) {
         vkDestroyPipeline(device_->device_, pipeline_, nullptr);
 
@@ -312,7 +312,7 @@ void vulkanite::renderer::Pipeline::destroy() {
     }
 }
 
-VkShaderStageFlagBits vulkanite::renderer::Pipeline::reverseMapShaderStage(ShaderStage stage) {
+inline VkShaderStageFlagBits vulkanite::renderer::Pipeline::reverseMapShaderStage(ShaderStage stage) {
     switch (stage) {
         case ShaderStage::VERTEX:
             return VK_SHADER_STAGE_VERTEX_BIT;
@@ -325,7 +325,7 @@ VkShaderStageFlagBits vulkanite::renderer::Pipeline::reverseMapShaderStage(Shade
     }
 }
 
-VkVertexInputRate vulkanite::renderer::Pipeline::reverseMapVertexInputRate(VertexInputRate rate) {
+inline VkVertexInputRate vulkanite::renderer::Pipeline::reverseMapVertexInputRate(VertexInputRate rate) {
     switch (rate) {
         case VertexInputRate::PER_VERTEX:
             return VK_VERTEX_INPUT_RATE_VERTEX;
@@ -338,7 +338,7 @@ VkVertexInputRate vulkanite::renderer::Pipeline::reverseMapVertexInputRate(Verte
     }
 }
 
-VkPrimitiveTopology vulkanite::renderer::Pipeline::reverseMapPrimitive(PolygonTopology topology) {
+inline VkPrimitiveTopology vulkanite::renderer::Pipeline::reverseMapPrimitive(PolygonTopology topology) {
     switch (topology) {
         case PolygonTopology::POINT:
             return VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
@@ -360,7 +360,7 @@ VkPrimitiveTopology vulkanite::renderer::Pipeline::reverseMapPrimitive(PolygonTo
     }
 }
 
-VkFormat vulkanite::renderer::Pipeline::reverseMapVertexAttributeFormat(VertexAttributeFormat format) {
+inline VkFormat vulkanite::renderer::Pipeline::reverseMapVertexAttributeFormat(VertexAttributeFormat format) {
     switch (format) {
         case VertexAttributeFormat::R32_FLOAT:
             return VK_FORMAT_R32_SFLOAT;
@@ -403,7 +403,7 @@ VkFormat vulkanite::renderer::Pipeline::reverseMapVertexAttributeFormat(VertexAt
     }
 }
 
-VkCullModeFlags vulkanite::renderer::Pipeline::reverseMapCullMode(PolygonCullMode cullMode) {
+inline VkCullModeFlags vulkanite::renderer::Pipeline::reverseMapCullMode(PolygonCullMode cullMode) {
     switch (cullMode) {
         case PolygonCullMode::NEVER:
             return VK_CULL_MODE_NONE;
@@ -422,7 +422,7 @@ VkCullModeFlags vulkanite::renderer::Pipeline::reverseMapCullMode(PolygonCullMod
     }
 }
 
-VkFrontFace vulkanite::renderer::Pipeline::reverseMapFrontFace(PolygonFaceWinding winding) {
+inline VkFrontFace vulkanite::renderer::Pipeline::reverseMapFrontFace(PolygonFaceWinding winding) {
     switch (winding) {
         case PolygonFaceWinding::CLOCKWISE:
             return VK_FRONT_FACE_CLOCKWISE;
@@ -435,7 +435,7 @@ VkFrontFace vulkanite::renderer::Pipeline::reverseMapFrontFace(PolygonFaceWindin
     }
 }
 
-VkSampleCountFlagBits vulkanite::renderer::Pipeline::reverseMapSampleCount(std::uint32_t sampleCount) {
+inline VkSampleCountFlagBits vulkanite::renderer::Pipeline::reverseMapSampleCount(std::uint32_t sampleCount) {
     switch (sampleCount) {
         case 1:
             return VK_SAMPLE_COUNT_1_BIT;
@@ -463,7 +463,7 @@ VkSampleCountFlagBits vulkanite::renderer::Pipeline::reverseMapSampleCount(std::
     }
 }
 
-VkCompareOp vulkanite::renderer::Pipeline::reverseMapCompareOperation(CompareOperation compare) {
+inline VkCompareOp vulkanite::renderer::Pipeline::reverseMapCompareOperation(CompareOperation compare) {
     switch (compare) {
         case CompareOperation::EQUAL:
             return VK_COMPARE_OP_EQUAL;
@@ -494,7 +494,7 @@ VkCompareOp vulkanite::renderer::Pipeline::reverseMapCompareOperation(CompareOpe
     }
 }
 
-VkStencilOpState vulkanite::renderer::Pipeline::reverseMapStencilOperationState(PerFaceRasterisationState perFaceState) {
+inline VkStencilOpState vulkanite::renderer::Pipeline::reverseMapStencilOperationState(PerFaceRasterisationState perFaceState) {
     return {
         .failOp = reverseMapStencilOperation(perFaceState.stencilFailOperation),
         .passOp = reverseMapStencilOperation(perFaceState.passOperation),
@@ -506,7 +506,7 @@ VkStencilOpState vulkanite::renderer::Pipeline::reverseMapStencilOperationState(
     };
 }
 
-VkBlendFactor vulkanite::renderer::Pipeline::reverseMapBlendFactor(BlendFactor factor) {
+inline VkBlendFactor vulkanite::renderer::Pipeline::reverseMapBlendFactor(BlendFactor factor) {
     switch (factor) {
         case BlendFactor::ZERO:
             return VK_BLEND_FACTOR_ZERO;
@@ -558,7 +558,7 @@ VkBlendFactor vulkanite::renderer::Pipeline::reverseMapBlendFactor(BlendFactor f
     }
 }
 
-VkBlendOp vulkanite::renderer::Pipeline::reverseMapBlendOperation(BlendOperation operation) {
+inline VkBlendOp vulkanite::renderer::Pipeline::reverseMapBlendOperation(BlendOperation operation) {
     switch (operation) {
         case BlendOperation::ADD:
             return VK_BLEND_OP_ADD;
@@ -580,7 +580,7 @@ VkBlendOp vulkanite::renderer::Pipeline::reverseMapBlendOperation(BlendOperation
     }
 }
 
-VkStencilOp vulkanite::renderer::Pipeline::reverseMapStencilOperation(ValueOperation operation) {
+inline VkStencilOp vulkanite::renderer::Pipeline::reverseMapStencilOperation(ValueOperation operation) {
     switch (operation) {
         case ValueOperation::KEEP:
             return VK_STENCIL_OP_KEEP;

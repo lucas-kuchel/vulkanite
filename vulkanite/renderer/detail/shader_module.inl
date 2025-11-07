@@ -3,7 +3,7 @@
 #include "../device.hpp"
 #include "../shader_module.hpp"
 
-void vulkanite::renderer::ShaderModule::create(const ShaderModuleCreateInfo& createInfo) {
+inline void vulkanite::renderer::ShaderModule::create(const ShaderModuleCreateInfo& createInfo) {
     VkShaderModuleCreateInfo shaderModuleCreateInfo = {
         .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
         .pNext = nullptr,
@@ -20,7 +20,7 @@ void vulkanite::renderer::ShaderModule::create(const ShaderModuleCreateInfo& cre
     }
 }
 
-void vulkanite::renderer::ShaderModule::destroy() {
+inline void vulkanite::renderer::ShaderModule::destroy() {
     if (module_) {
         vkDestroyShaderModule(device_->device_, module_, nullptr);
     }

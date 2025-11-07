@@ -46,4 +46,6 @@ namespace vulkanite::renderer {
     };
 }
 
+#include "detail/sampler.inl"
+
 #endif

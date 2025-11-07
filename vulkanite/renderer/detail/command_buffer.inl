@@ -10,11 +10,11 @@
 #include "../pipeline.hpp"
 #include "../render_pass.hpp"
 
-void vulkanite::renderer::CommandBuffer::reset() {
+inline void vulkanite::renderer::CommandBuffer::reset() {
     vkResetCommandBuffer(commandBuffer_, 0);
 }
 
-bool vulkanite::renderer::CommandBuffer::beginCapture() {
+inline bool vulkanite::renderer::CommandBuffer::beginCapture() {
     capturing_ = true;
 
     VkCommandBufferBeginInfo commandBufferBeginInfo = {
@@ -27,7 +27,7 @@ bool vulkanite::renderer::CommandBuffer::beginCapture() {
     return vkBeginCommandBuffer(commandBuffer_, &commandBufferBeginInfo) == VK_SUCCESS;
 }
 
-void vulkanite::renderer::CommandBuffer::beginRenderPass(RenderPassBeginInfo& beginInfo) {
+inline void vulkanite::renderer::CommandBuffer::beginRenderPass(RenderPassBeginInfo& beginInfo) {
     rendering_ = true;
 
     std::uint32_t clearValueCount = static_cast<std::uint32_t>(beginInfo.colourClearValues.size());
@@ -85,7 +85,7 @@ void vulkanite::renderer::CommandBuffer::beginRenderPass(RenderPassBeginInfo& be
     vkCmdBeginRenderPass(commandBuffer_, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
-bool vulkanite::renderer::CommandBuffer::endCapture() {
+inline bool vulkanite::renderer::CommandBuffer::endCapture() {
     if (!capturing_) {
         return false;
     }
@@ -95,7 +95,7 @@ bool vulkanite::renderer::CommandBuffer::endCapture() {
     return vkEndCommandBuffer(commandBuffer_) == VK_SUCCESS;
 }
 
-void vulkanite::renderer::CommandBuffer::endRenderPass() {
+inline void vulkanite::renderer::CommandBuffer::endRenderPass() {
     if (!rendering_) {
         return;
     }
@@ -105,7 +105,7 @@ void vulkanite::renderer::CommandBuffer::endRenderPass() {
     vkCmdEndRenderPass(commandBuffer_);
 }
 
-void vulkanite::renderer::CommandBuffer::copyBuffer(Buffer& source, Buffer& destination, const std::vector<BufferCopyRegion>& copyRegions) {
+inline void vulkanite::renderer::CommandBuffer::copyBuffer(Buffer& source, Buffer& destination, const std::vector<BufferCopyRegion>& copyRegions) {
     std::vector<VkBufferCopy> bufferCopies(copyRegions.size());
 
     for (std::uint64_t i = 0; i < bufferCopies.size(); i++) {
@@ -122,7 +122,7 @@ void vulkanite::renderer::CommandBuffer::copyBuffer(Buffer& source, Buffer& dest
     vkCmdCopyBuffer(commandBuffer_, source.buffer_, destination.buffer_, static_cast<std::uint32_t>(bufferCopies.size()), bufferCopies.data());
 }
 
-void vulkanite::renderer::CommandBuffer::copyBufferToImage(Buffer& source, Image& destination, ImageLayout imageLayout, const std::vector<BufferImageCopyRegion>& copyRegions) {
+inline void vulkanite::renderer::CommandBuffer::copyBufferToImage(Buffer& source, Image& destination, ImageLayout imageLayout, const std::vector<BufferImageCopyRegion>& copyRegions) {
     std::vector<VkBufferImageCopy> copies(copyRegions.size());
 
     for (std::uint64_t i = 0; i < copies.size(); i++) {
@@ -181,11 +181,11 @@ void vulkanite::renderer::CommandBuffer::copyBufferToImage(Buffer& source, Image
     vkCmdCopyBufferToImage(commandBuffer_, source.buffer_, destination.image_, layout, static_cast<std::uint32_t>(copies.size()), copies.data());
 }
 
-void vulkanite::renderer::CommandBuffer::nextSubpass() {
+inline void vulkanite::renderer::CommandBuffer::nextSubpass() {
     vkCmdNextSubpass(commandBuffer_, VK_SUBPASS_CONTENTS_INLINE);
 }
 
-void vulkanite::renderer::CommandBuffer::pipelineBarrier(Flags sourcePipelineStage, Flags destinationPipelineStage, const std::vector<ImageMemoryBarrier>& memoryBarriers) {
+inline void vulkanite::renderer::CommandBuffer::pipelineBarrier(Flags sourcePipelineStage, Flags destinationPipelineStage, const std::vector<ImageMemoryBarrier>& memoryBarriers) {
     std::vector<VkImageMemoryBarrier> barriers(memoryBarriers.size());
 
     for (std::uint64_t i = 0; i < barriers.size(); i++) {
@@ -292,7 +292,7 @@ void vulkanite::renderer::CommandBuffer::pipelineBarrier(Flags sourcePipelineSta
     vkCmdPipelineBarrier(commandBuffer_, PipelineStageFlags::mapFrom(sourcePipelineStage), PipelineStageFlags::mapFrom(destinationPipelineStage), 0, 0, nullptr, 0, nullptr, static_cast<std::uint32_t>(barriers.size()), barriers.data());
 }
 
-void vulkanite::renderer::CommandBuffer::bindDescriptorSets(DeviceOperation operation, PipelineLayout& layout, std::uint32_t firstSet, const std::vector<DescriptorSet>& sets) {
+inline void vulkanite::renderer::CommandBuffer::bindDescriptorSets(DeviceOperation operation, PipelineLayout& layout, std::uint32_t firstSet, const std::vector<DescriptorSet>& sets) {
     VkPipelineBindPoint point;
 
     switch (operation) {
@@ -314,11 +314,11 @@ void vulkanite::renderer::CommandBuffer::bindDescriptorSets(DeviceOperation oper
     vkCmdBindDescriptorSets(commandBuffer_, point, layout.pipelineLayout_, firstSet, static_cast<std::uint32_t>(vkSets.size()), vkSets.data(), 0, nullptr);
 }
 
-void vulkanite::renderer::CommandBuffer::bindPipeline(Pipeline& pipeline) {
+inline void vulkanite::renderer::CommandBuffer::bindPipeline(Pipeline& pipeline) {
     vkCmdBindPipeline(commandBuffer_, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.pipeline_);
 }
 
-void vulkanite::renderer::CommandBuffer::bindVertexBuffers(const std::vector<Buffer>& buffers, const std::vector<std::uint64_t>& offsets, std::uint32_t first) {
+inline void vulkanite::renderer::CommandBuffer::bindVertexBuffers(const std::vector<Buffer>& buffers, const std::vector<std::uint64_t>& offsets, std::uint32_t first) {
     std::vector<VkBuffer> vulkanBuffers(buffers.size());
 
     for (std::uint32_t i = 0; i < vulkanBuffers.size(); i++) {
@@ -328,7 +328,7 @@ void vulkanite::renderer::CommandBuffer::bindVertexBuffers(const std::vector<Buf
     vkCmdBindVertexBuffers(commandBuffer_, first, static_cast<std::uint32_t>(vulkanBuffers.size()), vulkanBuffers.data(), offsets.data());
 }
 
-void vulkanite::renderer::CommandBuffer::bindIndexBuffer(Buffer& buffer, std::uint64_t offset, IndexType indexType) {
+inline void vulkanite::renderer::CommandBuffer::bindIndexBuffer(Buffer& buffer, std::uint64_t offset, IndexType indexType) {
     VkIndexType type;
 
     switch (indexType) {
@@ -344,7 +344,7 @@ void vulkanite::renderer::CommandBuffer::bindIndexBuffer(Buffer& buffer, std::ui
     vkCmdBindIndexBuffer(commandBuffer_, buffer.buffer_, offset, type);
 }
 
-void vulkanite::renderer::CommandBuffer::setPipelineViewports(const std::vector<renderer::Viewport>& viewports, std::uint32_t offset) {
+inline void vulkanite::renderer::CommandBuffer::setPipelineViewports(const std::vector<renderer::Viewport>& viewports, std::uint32_t offset) {
     std::vector<VkViewport> vulkanViewports(viewports.size());
 
     for (std::uint32_t i = 0; i < vulkanViewports.size(); i++) {
@@ -364,7 +364,7 @@ void vulkanite::renderer::CommandBuffer::setPipelineViewports(const std::vector<
     vkCmdSetViewport(commandBuffer_, offset, static_cast<std::uint32_t>(vulkanViewports.size()), vulkanViewports.data());
 }
 
-void vulkanite::renderer::CommandBuffer::setPipelineScissors(const std::vector<renderer::Scissor>& scissors, std::uint32_t offset) {
+inline void vulkanite::renderer::CommandBuffer::setPipelineScissors(const std::vector<renderer::Scissor>& scissors, std::uint32_t offset) {
     std::vector<VkRect2D> vulkanScissors(scissors.size());
 
     for (std::uint32_t i = 0; i < vulkanScissors.size(); i++) {
@@ -381,35 +381,35 @@ void vulkanite::renderer::CommandBuffer::setPipelineScissors(const std::vector<r
     vkCmdSetScissor(commandBuffer_, offset, static_cast<std::uint32_t>(vulkanScissors.size()), vulkanScissors.data());
 }
 
-void vulkanite::renderer::CommandBuffer::setPipelineLineWidth(float width) {
+inline void vulkanite::renderer::CommandBuffer::setPipelineLineWidth(float width) {
     vkCmdSetLineWidth(commandBuffer_, width);
 }
 
-void vulkanite::renderer::CommandBuffer::setPipelineDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor) {
+inline void vulkanite::renderer::CommandBuffer::setPipelineDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor) {
     vkCmdSetDepthBias(commandBuffer_, depthBiasConstantFactor, depthBiasClamp, depthBiasSlopeFactor);
 }
 
-void vulkanite::renderer::CommandBuffer::setPipelineBlendConstants(const glm::fvec4& blend) {
+inline void vulkanite::renderer::CommandBuffer::setPipelineBlendConstants(const glm::fvec4& blend) {
     vkCmdSetBlendConstants(commandBuffer_, &blend.r);
 }
 
-void vulkanite::renderer::CommandBuffer::setPipelineDepthBounds(float min, float max) {
+inline void vulkanite::renderer::CommandBuffer::setPipelineDepthBounds(float min, float max) {
     vkCmdSetDepthBounds(commandBuffer_, min, max);
 }
 
-void vulkanite::renderer::CommandBuffer::setPipelineStencilCompareMask(Flags faceFlags, std::uint32_t compareMask) {
+inline void vulkanite::renderer::CommandBuffer::setPipelineStencilCompareMask(Flags faceFlags, std::uint32_t compareMask) {
     vkCmdSetStencilCompareMask(commandBuffer_, StencilFaceFlags::mapFrom(faceFlags), compareMask);
 }
 
-void vulkanite::renderer::CommandBuffer::setPipelineStencilWriteMask(Flags faceFlags, std::uint32_t writeMask) {
+inline void vulkanite::renderer::CommandBuffer::setPipelineStencilWriteMask(Flags faceFlags, std::uint32_t writeMask) {
     vkCmdSetStencilWriteMask(commandBuffer_, StencilFaceFlags::mapFrom(faceFlags), writeMask);
 }
 
-void vulkanite::renderer::CommandBuffer::setPipelineStencilReferenceMask(Flags faceFlags, std::uint32_t reference) {
+inline void vulkanite::renderer::CommandBuffer::setPipelineStencilReferenceMask(Flags faceFlags, std::uint32_t reference) {
     vkCmdSetStencilReference(commandBuffer_, StencilFaceFlags::mapFrom(faceFlags), reference);
 }
 
-void vulkanite::renderer::CommandBuffer::pushConstants(PipelineLayout& layout, std::uint32_t stageFlags, std::span<std::uint8_t> data, std::uint32_t offset) {
+inline void vulkanite::renderer::CommandBuffer::pushConstants(PipelineLayout& layout, std::uint32_t stageFlags, std::span<std::uint8_t> data, std::uint32_t offset) {
     VkShaderStageFlags flags = 0;
 
     if (stageFlags & DescriptorShaderStageFlags::VERTEX) {
@@ -423,18 +423,18 @@ void vulkanite::renderer::CommandBuffer::pushConstants(PipelineLayout& layout, s
     vkCmdPushConstants(commandBuffer_, layout.pipelineLayout_, flags, offset, static_cast<std::uint32_t>(data.size()), data.data());
 }
 
-void vulkanite::renderer::CommandBuffer::draw(std::uint32_t vertexCount, std::uint32_t instances, std::uint32_t firstVertex, std::uint32_t firstInstance) {
+inline void vulkanite::renderer::CommandBuffer::draw(std::uint32_t vertexCount, std::uint32_t instances, std::uint32_t firstVertex, std::uint32_t firstInstance) {
     vkCmdDraw(commandBuffer_, vertexCount, instances, firstVertex, firstInstance);
 }
 
-void vulkanite::renderer::CommandBuffer::drawIndexed(std::uint32_t indexCount, std::uint32_t instanceCount, std::uint32_t firstIndex, std::uint32_t firstInstance, std::int32_t vertexOffset) {
+inline void vulkanite::renderer::CommandBuffer::drawIndexed(std::uint32_t indexCount, std::uint32_t instanceCount, std::uint32_t firstIndex, std::uint32_t firstInstance, std::int32_t vertexOffset) {
     vkCmdDrawIndexed(commandBuffer_, indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
 }
 
-bool vulkanite::renderer::CommandBuffer::capturing() {
+inline bool vulkanite::renderer::CommandBuffer::capturing() {
     return capturing_;
 }
 
-bool vulkanite::renderer::CommandBuffer::rendering() {
+inline bool vulkanite::renderer::CommandBuffer::rendering() {
     return rendering_;
 }

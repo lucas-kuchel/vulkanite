@@ -6,7 +6,7 @@
 #include "../image_view.hpp"
 #include "../render_pass.hpp"
 
-void vulkanite::renderer::Framebuffer::create(const FramebufferCreateInfo& createInfo) {
+inline void vulkanite::renderer::Framebuffer::create(const FramebufferCreateInfo& createInfo) {
     std::vector<VkImageView> imageViews;
 
     imageViews.reserve(createInfo.imageViews.size());
@@ -37,7 +37,7 @@ void vulkanite::renderer::Framebuffer::create(const FramebufferCreateInfo& creat
     }
 }
 
-void vulkanite::renderer::Framebuffer::destroy() {
+inline void vulkanite::renderer::Framebuffer::destroy() {
     if (framebuffer_) {
         vkDestroyFramebuffer(device_->device_, framebuffer_, nullptr);
 
