@@ -4,6 +4,9 @@
 
 #if VULKANITE_SUPPORTED
 
+#include <cstdint>
+#include <vector>
+
 #include "device.hpp"
 
 #include "allocator.hpp"

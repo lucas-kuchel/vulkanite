@@ -1,8 +1,8 @@
+#include <vulkanite/renderer/renderer.hpp>
+
 #include <vulkanite/window/configuration.hpp>
 #include <vulkanite/window/subsystem.hpp>
 #include <vulkanite/window/window.hpp>
-
-#include <vulkanite/renderer/renderer.hpp>
 
 int main() {
     vulkanite::window::Subsystem subsystem;
