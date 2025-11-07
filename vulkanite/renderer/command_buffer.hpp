@@ -62,8 +62,6 @@ namespace vulkanite::renderer {
         bool rendering();
 
     private:
-        CommandBuffer() = default;
-
         VkCommandBuffer commandBuffer_ = nullptr;
         CommandPool* commandPool_ = nullptr;
 

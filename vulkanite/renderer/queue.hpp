@@ -36,8 +36,6 @@ namespace vulkanite::renderer {
         bool submit(const QueueSubmitInfo& submitInfo);
 
     private:
-        Queue() = default;
-
         VkQueue queue_ = nullptr;
 
         std::uint32_t familyIndex_;

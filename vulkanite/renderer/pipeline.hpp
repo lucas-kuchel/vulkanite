@@ -255,8 +255,6 @@ namespace vulkanite::renderer {
         void destroy();
 
     private:
-        Pipeline() = default;
-
         VkPipeline pipeline_ = nullptr;
         Device* device_ = nullptr;
 
