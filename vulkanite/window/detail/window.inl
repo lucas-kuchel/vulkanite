@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../configuration.hpp"
 #include "../subsystem.hpp"
 #include "../window.hpp"
 
