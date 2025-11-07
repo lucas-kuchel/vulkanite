@@ -59,8 +59,6 @@ namespace vulkanite::renderer {
         std::uint32_t getArrayLayers() const;
 
     private:
-        Image() = default;
-
         VkImage image_ = nullptr;
         VmaAllocation allocation_ = nullptr;
         Device* device_ = nullptr;
