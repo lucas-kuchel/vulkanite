@@ -68,8 +68,8 @@ namespace vulkanite::renderer {
 
     class RenderPass {
     public:
-        static RenderPass create(const RenderPassCreateInfo& createInfo);
-        static void destroy(RenderPass& renderPass);
+        RenderPass(const RenderPassCreateInfo& createInfo);
+        ~RenderPass();
 
     private:
         VkRenderPass renderPass_ = nullptr;
