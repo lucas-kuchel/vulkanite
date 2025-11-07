@@ -4,7 +4,7 @@
 #include "../device.hpp"
 #include "../fence.hpp"
 
-vulkanite::renderer::Fence::Fence(const FenceCreateInfo& createInfo) {
+void vulkanite::renderer::Fence::create(const FenceCreateInfo& createInfo) {
     VkFenceCreateInfo fenceCreateInfo = {
         .sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO,
         .pNext = nullptr,
@@ -19,7 +19,7 @@ vulkanite::renderer::Fence::Fence(const FenceCreateInfo& createInfo) {
     }
 }
 
-vulkanite::renderer::Fence::~Fence() {
+void vulkanite::renderer::Fence::destroy() {
     if (fence_) {
         vkDestroyFence(device_->device_, fence_, nullptr);
 

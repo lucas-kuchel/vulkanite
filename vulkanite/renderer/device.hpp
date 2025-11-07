@@ -4,8 +4,6 @@
 
 #if VULKANITE_SUPPORTED
 
-#include "queue.hpp"
-
 #include <limits>
 #include <span>
 
@@ -16,8 +14,11 @@ namespace vulkanite::renderer {
     class Instance;
     class Surface;
     class Pipeline;
+    class Queue;
+    class Fence;
 
     struct PipelineCreateInfo;
+    struct QueueCreateInfo;
 
     struct DeviceCreateInfo {
         Instance& instance;
@@ -27,8 +28,8 @@ namespace vulkanite::renderer {
 
     class Device {
     public:
-        Device(const DeviceCreateInfo& createInfo);
-        ~Device();
+        void create(const DeviceCreateInfo& createInfo);
+        void destroy();
 
         bool waitIdle();
         bool waitForFences(const std::vector<Fence>& fences, bool waitAll = true, std::uint32_t timeout = std::numeric_limits<std::uint32_t>::max());

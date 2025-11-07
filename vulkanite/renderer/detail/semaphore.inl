@@ -4,7 +4,7 @@
 #include "../device.hpp"
 #include "../fence.hpp"
 
-vulkanite::renderer::Semaphore::Semaphore(Device& device) {
+void vulkanite::renderer::Semaphore::create(Device& device) {
     VkSemaphoreCreateInfo semaphoreCreateInfo = {
         .sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO,
         .pNext = nullptr,
@@ -19,7 +19,7 @@ vulkanite::renderer::Semaphore::Semaphore(Device& device) {
     }
 }
 
-vulkanite::renderer::Semaphore::~Semaphore() {
+void vulkanite::renderer::Semaphore::destroy() {
     if (semaphore_ != nullptr) {
         vkDestroySemaphore(device_->device_, semaphore_, nullptr);
 

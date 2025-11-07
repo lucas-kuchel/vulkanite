@@ -82,14 +82,8 @@ namespace vulkanite::window {
 
     class Window {
     public:
-        Window(const WindowCreateInfo& createInfo);
-        ~Window();
-
-        Window(const Window&) = delete;
-        Window(Window&&) noexcept = default;
-
-        Window& operator=(const Window&) = delete;
-        Window& operator=(Window&&) noexcept = default;
+        void create(const WindowCreateInfo& createInfo);
+        void destroy();
 
         void setExtent(const ExtentType& extent);
         void setTitle(const TitleType& title);

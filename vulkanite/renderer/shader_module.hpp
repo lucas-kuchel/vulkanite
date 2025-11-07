@@ -20,8 +20,8 @@ namespace vulkanite::renderer {
 
     class ShaderModule {
     public:
-        ShaderModule(const ShaderModuleCreateInfo& createInfo);
-        ~ShaderModule();
+        void create(const ShaderModuleCreateInfo& createInfo);
+        void destroy();
 
     private:
         VkShaderModule module_ = nullptr;

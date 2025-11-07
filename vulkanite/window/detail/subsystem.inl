@@ -8,7 +8,7 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-vulkanite::window::Subsystem::Subsystem() {
+void vulkanite::window::Subsystem::create() {
     subsystemCount_++;
 
     if (subsystemCount_ > 1) {
@@ -22,7 +22,7 @@ vulkanite::window::Subsystem::Subsystem() {
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 }
 
-vulkanite::window::Subsystem::~Subsystem() {
+void vulkanite::window::Subsystem::destroy() {
     subsystemCount_--;
 
     if (subsystemCount_ == 0) {

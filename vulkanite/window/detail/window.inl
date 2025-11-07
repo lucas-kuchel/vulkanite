@@ -8,8 +8,11 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-vulkanite::window::Window::Window(const WindowCreateInfo& createInfo)
-    : extent_(createInfo.extent), title_(createInfo.title), visibility_(createInfo.visibility) {
+void vulkanite::window::Window::create(const WindowCreateInfo& createInfo) {
+    extent_ = createInfo.extent;
+    title_ = createInfo.title;
+    visibility_ = createInfo.visibility;
+
     glfwWindowHint(GLFW_RESIZABLE, createInfo.resizable);
 
     handle_ = glfwCreateWindow(static_cast<std::int32_t>(extent_.x), static_cast<std::int32_t>(extent_.y), title_.c_str(), nullptr, nullptr);
@@ -53,7 +56,7 @@ vulkanite::window::Window::Window(const WindowCreateInfo& createInfo)
     glfwSetScrollCallback(handle_, mouseScrollCallback);
 }
 
-vulkanite::window::Window::~Window() {
+void vulkanite::window::Window::destroy() {
     if (handle_) {
         glfwDestroyWindow(handle_);
 

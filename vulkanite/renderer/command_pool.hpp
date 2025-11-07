@@ -21,8 +21,8 @@ namespace vulkanite::renderer {
 
     class CommandPool {
     public:
-        CommandPool(const CommandPoolCreateInfo& createInfo);
-        ~CommandPool();
+        void create(const CommandPoolCreateInfo& createInfo);
+        void destroy();
 
         std::vector<CommandBuffer> allocateCommandBuffers(std::uint32_t count);
 

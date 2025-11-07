@@ -11,14 +11,8 @@ namespace vulkanite::window {
 
     class Subsystem {
     public:
-        Subsystem();
-        ~Subsystem();
-
-        Subsystem(const Subsystem&) = delete;
-        Subsystem(Subsystem&&) noexcept = default;
-
-        Subsystem& operator=(const Subsystem&) = delete;
-        Subsystem& operator=(Subsystem&&) noexcept = default;
+        void create();
+        void destroy();
 
         void pollEvents();
         void awaitEvents();

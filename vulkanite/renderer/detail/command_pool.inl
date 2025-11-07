@@ -5,7 +5,7 @@
 #include "../device.hpp"
 #include "../queue.hpp"
 
-vulkanite::renderer::CommandPool::CommandPool(const CommandPoolCreateInfo& createInfo) {
+void vulkanite::renderer::CommandPool::create(const CommandPoolCreateInfo& createInfo) {
     auto& device = createInfo.device.device_;
 
     VkCommandPoolCreateInfo poolCreateInfo = {
@@ -24,7 +24,7 @@ vulkanite::renderer::CommandPool::CommandPool(const CommandPoolCreateInfo& creat
     }
 }
 
-vulkanite::renderer::CommandPool::~CommandPool() {
+void vulkanite::renderer::CommandPool::destroy() {
     if (commandPool_) {
         vkDestroyCommandPool(device_->device_, commandPool_, nullptr);
 

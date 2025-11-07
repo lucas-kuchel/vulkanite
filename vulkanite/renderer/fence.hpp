@@ -20,8 +20,8 @@ namespace vulkanite::renderer {
 
     class Fence {
     public:
-        Fence(const FenceCreateInfo& createInfo);
-        ~Fence();
+        void create(const FenceCreateInfo& createInfo);
+        void destroy();
 
         bool signalled();
 

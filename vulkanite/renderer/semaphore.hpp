@@ -11,8 +11,8 @@ namespace vulkanite::renderer {
 
     class Semaphore {
     public:
-        Semaphore(Device& device);
-        ~Semaphore();
+        void create(Device& device);
+        void destroy();
 
     private:
         VkSemaphore semaphore_ = nullptr;

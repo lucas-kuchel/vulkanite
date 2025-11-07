@@ -4,7 +4,7 @@
 #include "../image.hpp"
 #include "../render_pass.hpp"
 
-vulkanite::renderer::RenderPass::RenderPass(const RenderPassCreateInfo& createInfo) {
+void vulkanite::renderer::RenderPass::create(const RenderPassCreateInfo& createInfo) {
     std::vector<VkAttachmentDescription> attachments(createInfo.colourAttachments.size() + createInfo.depthStencilAttachments.size());
     std::vector<VkSubpassDescription> subpasses(createInfo.subpasses.size());
     std::vector<VkSubpassDependency> dependencies(createInfo.subpassDependencies.size());
@@ -178,12 +178,12 @@ vulkanite::renderer::RenderPass::RenderPass(const RenderPassCreateInfo& createIn
     else {
         device_ = &createInfo.device;
     }
-
-    return renderPass;
 }
 
-vulkanite::renderer::RenderPass::~RenderPass() {
+void vulkanite::renderer::RenderPass::destroy() {
     if (renderPass_) {
         vkDestroyRenderPass(device_->device_, renderPass_, nullptr);
     }
+
+    renderPass_ = nullptr;
 }

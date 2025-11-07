@@ -42,8 +42,8 @@ namespace vulkanite::renderer {
 
     class Swapchain {
     public:
-        Swapchain(const SwapchainCreateInfo& createInfo, SwapchainResult& result);
-        ~Swapchain();
+        SwapchainResult create(const SwapchainCreateInfo& createInfo);
+        void destroy();
 
         ImageFormat getFormat() const;
         std::uint32_t getImageCount() const;

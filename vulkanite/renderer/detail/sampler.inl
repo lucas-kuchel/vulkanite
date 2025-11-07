@@ -3,7 +3,7 @@
 #include <renderer/device.hpp>
 #include <renderer/sampler.hpp>
 
-vulkanite::renderer::Sampler::Sampler(const SamplerCreateInfo& createInfo) {
+void vulkanite::renderer::Sampler::create(const SamplerCreateInfo& createInfo) {
     VkFilter min;
     VkFilter mag;
 
@@ -204,7 +204,7 @@ vulkanite::renderer::Sampler::Sampler(const SamplerCreateInfo& createInfo) {
     }
 }
 
-vulkanite::renderer::Sampler::~Sampler() {
+void vulkanite::renderer::Sampler::destroy() {
     if (sampler_) {
         vkDestroySampler(device_->device_, sampler_, nullptr);
 

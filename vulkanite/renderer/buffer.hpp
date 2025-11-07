@@ -38,8 +38,8 @@ namespace vulkanite::renderer {
 
     class Buffer {
     public:
-        Buffer(const BufferCreateInfo& createInfo);
-        ~Buffer();
+        void create(const BufferCreateInfo& createInfo);
+        void destroy();
 
         BufferMapping map(std::uint64_t size, std::uint64_t offset);
         void unmap(BufferMapping& mapping);

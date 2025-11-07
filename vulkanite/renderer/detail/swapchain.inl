@@ -11,7 +11,7 @@
 #include <limits>
 #include <stdexcept>
 
-vulkanite::renderer::Swapchain::Swapchain(const SwapchainCreateInfo& createInfo, SwapchainResult& result) {
+vulkanite::renderer::SwapchainResult vulkanite::renderer::Swapchain::create(const SwapchainCreateInfo& createInfo) {
     VkSwapchainKHR oldSwapchain = nullptr;
 
     synchronise_ = createInfo.shouldSynchronise;
@@ -24,9 +24,7 @@ vulkanite::renderer::Swapchain::Swapchain(const SwapchainCreateInfo& createInfo,
     VkSurfaceCapabilitiesKHR surfaceCapabilities = getSurfaceCapabilities();
 
     if (surfaceCapabilities.currentExtent.width == 0 || surfaceCapabilities.currentExtent.height == 0) {
-        result = SwapchainResult::PENDING;
-
-        return;
+        return SwapchainResult::PENDING;
     }
 
     selectSurfaceFormat();
@@ -76,13 +74,13 @@ vulkanite::renderer::Swapchain::Swapchain(const SwapchainCreateInfo& createInfo,
     }
 
     if (error == VK_ERROR_NATIVE_WINDOW_IN_USE_KHR) {
-        result = SwapchainResult::BUSY;
+        return SwapchainResult::BUSY;
     }
     else if (error == VK_ERROR_OUT_OF_DATE_KHR) {
-        result = SwapchainResult::PENDING;
+        return SwapchainResult::PENDING;
     }
     else if (error != VK_SUCCESS) {
-        result = SwapchainResult::FAILED;
+        return SwapchainResult::FAILED;
     }
     else {
         if (createInfo.oldSwapchain) {
@@ -91,14 +89,18 @@ vulkanite::renderer::Swapchain::Swapchain(const SwapchainCreateInfo& createInfo,
 
         createImageResources();
 
-        result = SwapchainResult::SUCCESS;
+        return SwapchainResult::SUCCESS;
     }
 }
 
-vulkanite::renderer::Swapchain::~Swapchain() {
+void vulkanite::renderer::Swapchain::destroy() {
     if (swapchain_) {
         for (auto& image : images_) {
             image.image_ = nullptr;
+        }
+
+        for (auto& view : imageViews_) {
+            view.destroy();
         }
 
         images_.clear();
@@ -231,7 +233,9 @@ void vulkanite::renderer::Swapchain::createImageResources() {
             .layerCount = 1,
         };
 
-        imageViews_.emplace_back(viewCreateInfo);
+        auto& imageView = imageViews_.emplace_back();
+
+        imageView.create(viewCreateInfo);
     }
 }
 

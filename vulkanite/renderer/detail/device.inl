@@ -13,7 +13,7 @@
 #include <stdexcept>
 #include <unordered_map>
 
-vulkanite::renderer::Device::Device(const DeviceCreateInfo& createInfo) {
+void vulkanite::renderer::Device::create(const DeviceCreateInfo& createInfo) {
     std::vector<std::uint32_t> familyIndexMappings;
     std::vector<std::vector<float>> familyIndexPriorities;
 
@@ -194,7 +194,7 @@ vulkanite::renderer::Device::Device(const DeviceCreateInfo& createInfo) {
     }
 }
 
-vulkanite::renderer::Device::~Device() {
+void vulkanite::renderer::Device::destroy() {
     if (allocator_) {
         vmaDestroyAllocator(allocator_);
 

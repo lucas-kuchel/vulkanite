@@ -23,8 +23,8 @@ namespace vulkanite::renderer {
 
     class Instance {
     public:
-        Instance(const InstanceCreateInfo& createInfo);
-        ~Instance();
+        void create(const InstanceCreateInfo& createInfo);
+        void destroy();
 
     private:
         VkInstance instance_ = nullptr;

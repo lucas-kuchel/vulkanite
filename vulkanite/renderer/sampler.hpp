@@ -35,8 +35,8 @@ namespace vulkanite::renderer {
 
     class Sampler {
     public:
-        Sampler(const SamplerCreateInfo& createInfo);
-        ~Sampler();
+        void create(const SamplerCreateInfo& createInfo);
+        void destroy();
 
     private:
         VkSampler sampler_ = nullptr;

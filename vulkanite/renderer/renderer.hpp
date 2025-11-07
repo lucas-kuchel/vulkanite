@@ -4,12 +4,13 @@
 
 #if VULKANITE_SUPPORTED
 
+#include "device.hpp"
+
 #include "allocator.hpp"
 #include "buffer.hpp"
 #include "command_buffer.hpp"
 #include "command_pool.hpp"
 #include "configuration.hpp"
-#include "device.hpp"
 #include "fence.hpp"
 #include "framebuffer.hpp"
 #include "image.hpp"

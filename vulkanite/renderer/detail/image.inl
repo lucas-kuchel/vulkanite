@@ -6,7 +6,7 @@
 
 #include <stdexcept>
 
-vulkanite::renderer::Image::Image(const ImageCreateInfo& createInfo) {
+void vulkanite::renderer::Image::create(const ImageCreateInfo& createInfo) {
     VmaMemoryUsage memoryUsage;
     VkMemoryPropertyFlags memoryProperties;
 
@@ -78,7 +78,7 @@ vulkanite::renderer::Image::Image(const ImageCreateInfo& createInfo) {
     }
 }
 
-vulkanite::renderer::Image::~Image() {
+void vulkanite::renderer::Image::destroy() {
     if (image_) {
         vmaDestroyImage(device_->allocator_, image_, allocation_);
     }

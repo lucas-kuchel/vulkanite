@@ -25,8 +25,8 @@ namespace vulkanite::renderer {
 
     class ImageView {
     public:
-        ImageView(const ImageViewCreateInfo& createInfo);
-        ~ImageView();
+        void create(const ImageViewCreateInfo& createInfo);
+        void destroy();
 
         ImageViewType getType() const;
         std::uint32_t getBaseMipLevel() const;

@@ -6,6 +6,10 @@
 
 int main() {
     vulkanite::window::Subsystem subsystem;
+    vulkanite::window::Window window;
+
+    vulkanite::renderer::Instance instance;
+    vulkanite::renderer::Surface surface;
 
     vulkanite::window::WindowCreateInfo windowCreateInfo = {
         .subsystem = subsystem,
@@ -15,8 +19,6 @@ int main() {
         .resizable = false,
     };
 
-    vulkanite::window::Window window(windowCreateInfo);
-
     vulkanite::renderer::InstanceCreateInfo instanceCreateInfo = {
         .applicationName = window.getTitle(),
         .applicationVersionMajor = 0,
@@ -25,14 +27,16 @@ int main() {
         .requestDebug = true,
     };
 
-    vulkanite::renderer::Instance instance(instanceCreateInfo);
-
     vulkanite::renderer::SurfaceCreateInfo surfaceCreateInfo = {
         .instance = instance,
         .window = window,
     };
 
-    vulkanite::renderer::Surface surface(surfaceCreateInfo);
+    subsystem.create();
+    window.create(windowCreateInfo);
+
+    instance.create(instanceCreateInfo);
+    surface.create(surfaceCreateInfo);
 
     bool running = true;
 
@@ -52,4 +56,10 @@ int main() {
             }
         }
     }
+
+    surface.destroy();
+    instance.destroy();
+
+    window.destroy();
+    subsystem.destroy();
 }

@@ -128,8 +128,8 @@ namespace vulkanite::renderer {
 
     class DescriptorSetLayout {
     public:
-        DescriptorSetLayout(const DescriptorSetLayoutCreateInfo& createInfo);
-        ~DescriptorSetLayout();
+        void create(const DescriptorSetLayoutCreateInfo& createInfo);
+        void destroy();
 
     private:
         VkDescriptorSetLayout descriptorSetLayout_ = nullptr;
@@ -209,8 +209,8 @@ namespace vulkanite::renderer {
 
     class DescriptorPool {
     public:
-        DescriptorPool(const DescriptorPoolCreateInfo& createInfo);
-        ~DescriptorPool();
+        void create(const DescriptorPoolCreateInfo& createInfo);
+        void destroy();
 
         std::vector<DescriptorSet> allocateDescriptorSets(const DescriptorSetCreateInfo& createInfo);
         void updateDescriptorSets(std::vector<DescriptorSetUpdateInfo> updateInfos);
@@ -222,8 +222,8 @@ namespace vulkanite::renderer {
 
     class PipelineLayout {
     public:
-        PipelineLayout(const PipelineLayoutCreateInfo& createInfo);
-        ~PipelineLayout();
+        void create(const PipelineLayoutCreateInfo& createInfo);
+        void destroy();
 
     private:
         VkPipelineLayout pipelineLayout_ = nullptr;
@@ -252,7 +252,7 @@ namespace vulkanite::renderer {
 
     class Pipeline {
     public:
-        ~Pipeline();
+        void destroy();
 
     private:
         Pipeline() = default;

@@ -19,8 +19,8 @@ namespace vulkanite::renderer {
 
     class Surface {
     public:
-        Surface(const SurfaceCreateInfo& createInfo);
-        ~Surface();
+        void create(const SurfaceCreateInfo& createInfo);
+        void destroy();
 
         glm::uvec2 getExtent() const;
 

@@ -43,8 +43,8 @@ namespace vulkanite::renderer {
 
     class Image {
     public:
-        Image(const ImageCreateInfo& createInfo);
-        ~Image();
+        void create(const ImageCreateInfo& createInfo);
+        void destroy();
 
         ImageMapping map(std::uint64_t sizeBytes, std::uint64_t offsetBytes);
         void unmap(ImageMapping& mapping);

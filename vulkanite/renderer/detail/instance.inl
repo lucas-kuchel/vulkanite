@@ -7,7 +7,7 @@
 
 #include <GLFW/glfw3.h>
 
-vulkanite::renderer::Instance::Instance(const InstanceCreateInfo& createInfo) {
+void vulkanite::renderer::Instance::create(const InstanceCreateInfo& createInfo) {
     if (vkEnumerateInstanceVersion(&apiVersion_) != VK_SUCCESS) {
         instance_ = nullptr;
 
@@ -171,7 +171,7 @@ vulkanite::renderer::Instance::Instance(const InstanceCreateInfo& createInfo) {
     vkGetPhysicalDeviceProperties(physicalDevice_, &properties_);
 }
 
-vulkanite::renderer::Instance::~Instance() {
+void vulkanite::renderer::Instance::destroy() {
     if (instance_) {
         vkDestroyInstance(instance_, nullptr);
 

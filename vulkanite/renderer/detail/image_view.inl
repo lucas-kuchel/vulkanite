@@ -4,7 +4,7 @@
 #include "../image.hpp"
 #include "../image_view.hpp"
 
-vulkanite::renderer::ImageView::ImageView(const ImageViewCreateInfo& createInfo) {
+void vulkanite::renderer::ImageView::create(const ImageViewCreateInfo& createInfo) {
     VkImageViewCreateInfo viewCreateInfo = {
         .sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
         .pNext = nullptr,
@@ -37,7 +37,7 @@ vulkanite::renderer::ImageView::ImageView(const ImageViewCreateInfo& createInfo)
     }
 }
 
-vulkanite::renderer::ImageView::~ImageView() {
+void vulkanite::renderer::ImageView::destroy() {
     if (imageView_) {
         vkDestroyImageView(device_, imageView_, nullptr);
 

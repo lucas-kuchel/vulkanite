@@ -4,7 +4,7 @@
 #include "../device.hpp"
 #include "../instance.hpp"
 
-vulkanite::renderer::Buffer::Buffer(const BufferCreateInfo& createInfo) {
+void vulkanite::renderer::Buffer::create(const BufferCreateInfo& createInfo) {
     VmaMemoryUsage memoryUsage;
     VkMemoryPropertyFlags memoryProperties;
 
@@ -63,7 +63,7 @@ vulkanite::renderer::Buffer::Buffer(const BufferCreateInfo& createInfo) {
     }
 }
 
-vulkanite::renderer::Buffer::~Buffer() {
+void vulkanite::renderer::Buffer::destroy() {
     if (buffer_) {
         vmaDestroyBuffer(device_->allocator_, buffer_, allocation_);
 

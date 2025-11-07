@@ -6,7 +6,7 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-vulkanite::renderer::Surface::Surface(const SurfaceCreateInfo& createInfo) {
+void vulkanite::renderer::Surface::create(const SurfaceCreateInfo& createInfo) {
     if (glfwCreateWindowSurface(createInfo.instance.instance_, createInfo.window.getHandle(), nullptr, &surface_) != VK_SUCCESS) {
         surface_ = nullptr;
     }
@@ -16,7 +16,7 @@ vulkanite::renderer::Surface::Surface(const SurfaceCreateInfo& createInfo) {
     }
 }
 
-vulkanite::renderer::Surface::~Surface() {
+void vulkanite::renderer::Surface::destroy() {
     if (surface_) {
         vkDestroySurfaceKHR(instance_->instance_, surface_, nullptr);
 

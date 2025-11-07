@@ -22,8 +22,8 @@ namespace vulkanite::renderer {
 
     class Framebuffer {
     public:
-        Framebuffer(const FramebufferCreateInfo& createInfo);
-        ~Framebuffer();
+        void create(const FramebufferCreateInfo& createInfo);
+        void destroy();
 
     private:
         VkFramebuffer framebuffer_ = nullptr;
